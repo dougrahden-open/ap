@@ -3,262 +3,214 @@
 apiVersion: v1
 kind: ConfigMap
 metadata:
-  name: model-selector-html
-  namespace: portal
+name: model-selector-html
+namespace: portal
 data:
-  index.html: |
-    <!DOCTYPE html>
-    <html lang="en">
-    <head>
-      <title>INL GenAI Portal</title>
-      <meta charset="UTF-8">
-      <meta name="viewport" content="width=device-width, initial-scale=1.0">
-      <style>
-        body {
-          font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
-          background: linear-gradient(to bottom, #f0f4f8, #ffffff);
-          margin: 0;
-          padding: 0;
-          color: #2c3e50;
-          line-height: 1.6;
-        }
-        .container {
-          max-width: 1200px;
-          margin: 60px auto;
-          padding: 0 20px;
-        }
-        h1 {
-          text-align: center;
-          font-size: 2.5em;
-          margin-bottom: 40px;
-          color: #1a4d2e;
-          font-weight: 300;
-          letter-spacing: 1px;
-        }
-        .model-grid {
-          display: grid;
-          grid-template-columns: repeat(2, 1fr);  /* Two columns as requested */
-          gap: 30px;
-        }
-        @media (max-width: 768px) {
-          .model-grid {
-            grid-template-columns: 1fr;  /* Stack to one column on mobile */
-          }
-        }
-        .model-card {
-          background: white;
-          border-radius: 12px;
-          padding: 25px;
-          box-shadow: 0 4px 15px rgba(0,0,0,0.05);
-          transition: transform 0.3s ease, box-shadow 0.3s ease;
-          border: 1px solid #e0e7ff;
-        }
-        .model-card:hover {
-          transform: translateY(-5px);
-          box-shadow: 0 8px 25px rgba(0,0,0,0.1);
-        }
-        .model-title {
-          font-size: 1.8em;
-          margin-bottom: 15px;
-          color: #1a4d2e;
-          font-weight: 500;
-        }
-        .model-description {
-          color: #4a5568;
-          font-size: 1em;
-          margin-bottom: 20px;
-        }
-        .model-description ul {
-          list-style-type: disc;
-          padding-left: 20px;
-          margin: 0;
-        }
-        .model-description li {
-          margin-bottom: 5px;
-        }
-        .model-button {
-          display: inline-block;
-          background: #1a4d2e;
-          color: white;
-          padding: 10px 20px;
-          border-radius: 6px;
-          text-decoration: none;
-          font-weight: 500;
-          transition: background 0.3s ease;
-        }
-        .model-button:hover {
-          background: #245a39;
-        }
-        .model-status {
-          display: inline-block;
-          padding: 4px 12px;
-          border-radius: 20px;
-          font-size: 0.8em;
-          font-weight: 600;
-          margin-bottom: 10px;
-        }
-        .status-active {
-          background: #e6fffa;
-          color: #319795;
-        }
-        .status-beta {
-          background: #fffbeb;
-          color: #d69e2e;
-        }
-        .footer {
-          text-align: center;
-          padding: 20px;
-          color: #718096;
-          font-size: 0.9em;
-          margin-top: 40px;
-        }
-      </style>
-    </head>
-    <body>
-      <div class="container">
-        <h1>INL GenAI Apps</h1>  <!-- UPDATE THIS TITLE IF YOU WANT A DIFFERENT PORTAL NAME -->
-        
-        <div class="model-grid">
-          <div class="model-card">
-            <span class="model-status status-active">ACTIVE</span>  <!-- UPDATE STATUS IF NEEDED (e.g., BETA) -->
-            <div class="model-title">MauroGPT2</div>
-            <div class="model-description">
-              <ul>
-                <li>Advanced GenAI for research and analysis</li>
-                <li>Handles technical docs and data interpretation</li>
-                <li>Custom user authorization</li>
-              </ul>
-            </div>  <!-- UPDATE BULLETS WITH ACTUAL DESCRIPTION -->
-            <a href="/maurogpt2/" class="model-button">Launch →</a>
-          </div>
-          
-          <div class="model-card">
-            <span class="model-status status-active">ACTIVE</span>
-            <div class="model-title">lotusAI</div>
-            <div class="model-description">
-              <ul>
-                <li>AI tools for lotus-related simulations</li>
-                <li>Optimized for internal analytics</li>
-                <li>GPU-accelerated processing</li>
-              </ul>
-            </div>  <!-- UPDATE BULLETS WITH ACTUAL DESCRIPTION -->
-            <a href="/lotusai/" class="model-button">Launch →</a>
-          </div>
-          
-          <div class="model-card">
-            <span class="model-status status-active">ACTIVE</span>
-            <div class="model-title">ThuleGPT</div>
-            <div class="model-description">
-              <ul>
-                <li>Specialized GPT for thule domain queries</li>
-                <li>Integrates with INL datasets</li>
-                <li>Fast, secure responses</li>
-              </ul>
-            </div>  <!-- UPDATE BULLETS WITH ACTUAL DESCRIPTION -->
-            <a href="/thulegpt/" class="model-button">Launch →</a>
-          </div>
-          
-          <div class="model-card">
-            <span class="model-status status-active">ACTIVE</span>
-            <div class="model-title">FuelGPT</div>
-            <div class="model-description">
-              <ul>
-                <li>GenAI for fuel cycle analysis</li>
-                <li>Predictive modeling and insights</li>
-                <li>User-authorized access</li>
-              </ul>
-            </div>  <!-- UPDATE BULLETS WITH ACTUAL DESCRIPTION -->
-            <a href="/fuelgpt/" class="model-button">Launch →</a>
-          </div>
-          
-          <div class="model-card">
-            <span class="model-status status-beta">BETA</span>
-            <div class="model-title">SorterAI</div>
-            <div class="model-description">
-              <ul>
-                <li>AI for sorting and classification tasks</li>
-                <li>Handles complex data streams</li>
-                <li>Experimental features</li>
-              </ul>
-            </div>  <!-- UPDATE BULLETS WITH ACTUAL DESCRIPTION -->
-            <a href="/sorterai/" class="model-button">Launch →</a>
-          </div>
-          
-          <div class="model-card">
-            <span class="model-status status-beta">BETA</span>
-            <div class="model-title">SpecIngestion</div>
-            <div class="model-description">
-              <ul>
-                <li>Tool for ingesting and processing specs</li>
-                <li>Automated document handling</li>
-                <li>Beta testing phase</li>
-              </ul>
-            </div>  <!-- UPDATE BULLETS WITH ACTUAL DESCRIPTION -->
-            <a href="/specingestion/" class="model-button">Launch →</a>
-          </div>
-        </div>
+index.html: |
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<title>INL ML & AI Portal</title>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<style>
+body {
+font-family: -apple-system, BlinkMacSystemFont, “Segoe UI”, Roboto, sans-serif;
+background: linear-gradient(to bottom, #f0f8ff, #ffffff);  /* Light light blue background inspired by INL theme */
+margin: 0;
+padding: 0;
+color: #2c3e50;
+line-height: 1.6;
+}
+.container {
+max-width: 1200px;
+margin: 60px auto;
+padding: 0 20px;
+}
+h1 {
+text-align: center;
+font-size: 2.5em;
+margin-bottom: 40px;
+color: #07519e;  /* Dark blue for title, from INL palette */
+font-weight: 300;
+letter-spacing: 1px;
+}
+.model-grid {
+display: grid;
+grid-template-columns: repeat(2, 1fr);  /* Two columns */
+gap: 30px;
+}
+@media (max-width: 768px) {
+.model-grid {
+grid-template-columns: 1fr;  /* Stack to one column on mobile */
+}
+}
+.model-card {
+background: white;
+border-radius: 12px;
+padding: 25px;
+box-shadow: 0 4px 15px rgba(0,0,0,0.05);
+transition: transform 0.3s ease, box-shadow 0.3s ease;
+border: 1px solid #e0f2fe;  /* Light blue-tinted border for INL theme */
+text-align: center;
+}
+.model-card:hover {
+transform: translateY(-5px);
+box-shadow: 0 8px 25px rgba(0,0,0,0.1);
+}
+.model-title {
+font-size: 1.8em;
+margin-bottom: 15px;
+color: #f68c20;  /* Orange for model names, from INL palette */
+font-weight: 500;
+}
+.model-button {
+display: inline-block;
+background: #f68c20;  /* Orange for buttons, from INL palette (not overwhelming) */
+color: white;
+padding: 10px 20px;
+border-radius: 6px;
+text-decoration: none;
+font-weight: 500;
+transition: background 0.3s ease;
+}
+.model-button:hover {
+background: #e67e22;  /* Slightly darker orange on hover */
+}
+.model-status {
+display: inline-block;
+padding: 4px 12px;
+border-radius: 20px;
+font-size: 0.8em;
+font-weight: 600;
+margin-bottom: 10px;
+}
+.status-active {
+background: #e6f7ff;  /* Light blue background for ACTIVE */
+color: #07519e;  /* Dark blue text for ACTIVE */
+}
+.status-development {
+background: #fee2e2;
+color: #cf1e4c;  /* Red for In Development, from INL palette */
+}
+.footer {
+text-align: center;
+padding: 20px;
+color: #718096;
+font-size: 0.9em;
+margin-top: 40px;
+}
+.footer p {
+margin: 5px 0;
+}
+</style>
+</head>
+<body>
+<div class="container">
+<h1>Advanced Analytics (Y634) ML & AI Portal</h1>
+
+```
+    <div class="model-grid">
+      <div class="model-card">
+        <span class="model-status status-active">ACTIVE</span>
+        <div class="model-title">MauroGPT2</div>
+        <a href="/maurogpt2/" class="model-button">Launch →</a>
       </div>
       
-      <div class="footer">
-        Idaho National Laboratory • Internal Use Only  <!-- UPDATE FOOTER TEXT IF NEEDED -->
+      <div class="model-card">
+        <span class="model-status status-development">IN DEVELOPMENT</span>
+        <div class="model-title">lotusAI</div>
+        <a href="/lotusai/" class="model-button">Launch →</a>
       </div>
-    </body>
-    </html>
+      
+      <div class="model-card">
+        <span class="model-status status-development">IN DEVELOPMENT</span>
+        <div class="model-title">ThuleGPT</div>
+        <a href="/thulegpt/" class="model-button">Launch →</a>
+      </div>
+      
+      <div class="model-card">
+        <span class="model-status status-development">IN DEVELOPMENT</span>
+        <div class="model-title">FuelGPT</div>
+        <a href="/fuelgpt/" class="model-button">Launch →</a>
+      </div>
+      
+      <div class="model-card">
+        <span class="model-status status-development">IN DEVELOPMENT</span>
+        <div class="model-title">SorterAI</div>
+        <a href="/sorterai/" class="model-button">Launch →</a>
+      </div>
+      
+      <div class="model-card">
+        <span class="model-status status-development">IN DEVELOPMENT</span>
+        <div class="model-title">SpecIngestion</div>
+        <a href="/specingestion/" class="model-button">Launch →</a>
+      </div>
+    </div>
+  </div>
+  
+  <div class="footer">
+    <p>Idaho National Laboratory - Internal Use Only</p>
+    <p>Contact Doug Rahden Douglas.Rahden@inl.gov for access requests or technical questions.</p>
+  </div>
+</body>
+</html>
+```
 
 -----
 
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: model-selector
-  namespace: portal
-  labels:
-    app: model-selector
+name: model-selector
+namespace: portal
+labels:
+app: model-selector
 spec:
-  replicas: 1
-  selector:
-    matchLabels:
-      app: model-selector
-  template:
-    metadata:
-      labels:
-        app: model-selector
-    spec:
-      containers:
-        - name: nginx
-          image: nginx:alpine
-          ports:
-            - containerPort: 80
-              name: http
-          volumeMounts:
-            - name: html
-              mountPath: /usr/share/nginx/html
-              readOnly: true
-          resources:
-            requests:
-              memory: "32Mi"
-              cpu: "25m"
-            limits:
-              memory: "64Mi"
-              cpu: "50m"
-      volumes:
-        - name: html
-          configMap:
-            name: model-selector-html
+replicas: 1
+selector:
+matchLabels:
+app: model-selector
+template:
+metadata:
+labels:
+app: model-selector
+spec:
+containers:
+- name: nginx
+image: nginx:alpine
+ports:
+- containerPort: 80
+name: http
+volumeMounts:
+- name: html
+mountPath: /usr/share/nginx/html
+readOnly: true
+resources:
+requests:
+memory: “32Mi”
+cpu: “25m”
+limits:
+memory: “64Mi”
+cpu: “50m”
+volumes:
+- name: html
+configMap:
+name: model-selector-html
 
 -----
 
 apiVersion: v1
 kind: Service
 metadata:
-  name: model-selector
-  namespace: portal
-  labels:
-    app: model-selector
+name: model-selector
+namespace: portal
+labels:
+app: model-selector
 spec:
-  selector:
-    app: model-selector
-  ports:
-    - name: http
-      port: 80
-      targetPort: http
+selector:
+app: model-selector
+ports:
+- name: http
+port: 80
+targetPort: http

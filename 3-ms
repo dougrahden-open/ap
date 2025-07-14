@@ -116,11 +116,11 @@ data:
     </head>
     <body>
       <div class="container">
-        <h1>INL GenAI Apps</h1>
+        <h1>INL GenAI Apps</h1>  <!-- UPDATE THIS TITLE IF YOU WANT A DIFFERENT PORTAL NAME -->
         
         <div class="model-grid">
           <div class="model-card">
-            <span class="model-status status-active">ACTIVE</span>
+            <span class="model-status status-active">ACTIVE</span>  <!-- UPDATE STATUS IF NEEDED (e.g., BETA) -->
             <div class="model-title">MauroGPT2</div>
             <div class="model-description">
               <ul>
@@ -128,7 +128,7 @@ data:
                 <li>Handles technical docs and data interpretation</li>
                 <li>Custom user authorization</li>
               </ul>
-            </div>
+            </div>  <!-- UPDATE BULLETS WITH ACTUAL DESCRIPTION -->
             <a href="/maurogpt2/" class="model-button">Launch →</a>
           </div>
           
@@ -141,7 +141,7 @@ data:
                 <li>Optimized for internal analytics</li>
                 <li>GPU-accelerated processing</li>
               </ul>
-            </div>
+            </div>  <!-- UPDATE BULLETS WITH ACTUAL DESCRIPTION -->
             <a href="/lotusai/" class="model-button">Launch →</a>
           </div>
           
@@ -154,7 +154,7 @@ data:
                 <li>Integrates with INL datasets</li>
                 <li>Fast, secure responses</li>
               </ul>
-            </div>
+            </div>  <!-- UPDATE BULLETS WITH ACTUAL DESCRIPTION -->
             <a href="/thulegpt/" class="model-button">Launch →</a>
           </div>
           
@@ -167,7 +167,7 @@ data:
                 <li>Predictive modeling and insights</li>
                 <li>User-authorized access</li>
               </ul>
-            </div>
+            </div>  <!-- UPDATE BULLETS WITH ACTUAL DESCRIPTION -->
             <a href="/fuelgpt/" class="model-button">Launch →</a>
           </div>
           
@@ -180,7 +180,7 @@ data:
                 <li>Handles complex data streams</li>
                 <li>Experimental features</li>
               </ul>
-            </div>
+            </div>  <!-- UPDATE BULLETS WITH ACTUAL DESCRIPTION -->
             <a href="/sorterai/" class="model-button">Launch →</a>
           </div>
           
@@ -193,14 +193,14 @@ data:
                 <li>Automated document handling</li>
                 <li>Beta testing phase</li>
               </ul>
-            </div>
+            </div>  <!-- UPDATE BULLETS WITH ACTUAL DESCRIPTION -->
             <a href="/specingestion/" class="model-button">Launch →</a>
           </div>
         </div>
       </div>
       
       <div class="footer">
-        Idaho National Laboratory • Internal Use Only
+        Idaho National Laboratory • Internal Use Only  <!-- UPDATE FOOTER TEXT IF NEEDED -->
       </div>
     </body>
     </html>

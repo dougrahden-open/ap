@@ -1,4 +1,5 @@
 # This defines how URLs map to the actual model services (NGINX version)
+# Direct access like /maurogpt2/ works here - users can bookmark and go straight to app after login
 
 apiVersion: networking.k8s.io/v1
 kind: Ingress
@@ -8,7 +9,7 @@ metadata:
   annotations:
     # Enable nginx-specific features
     nginx.ingress.kubernetes.io/auth-url: "http://oauth2-proxy.portal.svc.cluster.local:4180/authorization-code/auth"
-    nginx.ingress.kubernetes.io/auth-signin: "https://aaportal.inl.gov/authorization-code/start?rd=$escaped_request_uri"  # Change to http if no HTTPS
+    nginx.ingress.kubernetes.io/auth-signin: "https://aaportal.inl.gov/authorization-code/start?rd=$escaped_request_uri"  # UPDATE TO http IF SKIPPING HTTPS
     nginx.ingress.kubernetes.io/auth-response-headers: "X-Auth-Request-User,X-Auth-Request-Email,X-Auth-Request-Preferred-Username,X-Auth-Request-Access-Token"
     nginx.ingress.kubernetes.io/configuration-snippet: |
       auth_request_set $user $upstream_http_x_auth_request_preferred_username;
@@ -24,9 +25,9 @@ spec:
   tls:
     - hosts:
         - aaportal.inl.gov
-      secretName: aaportal-tls  # Remove whole tls block for HTTP
+      secretName: aaportal-tls  # REMOVE WHOLE TLS BLOCK IF SKIPPING HTTPS
   rules:
-    - host: aaportal.inl.gov
+    - host: aaportal.inl.gov  # UPDATE THIS IF DOMAIN CHANGES
       http:
         paths:
           # Auth endpoints (no auth required here!)
@@ -38,7 +39,7 @@ spec:
                 port:
                   number: 4180
           
-          # Model selector homepage
+          # Model selector homepage (only at root / - direct app paths skip this)
           - path: /
             pathType: Exact
             backend:
@@ -47,59 +48,59 @@ spec:
                 port:
                   number: 80
           
-          # MauroGPT2
+          # MauroGPT2 (bookmark direct: /maurogpt2/)
           - path: /maurogpt2(/|$)(.*)
             pathType: Prefix
             backend:
               service:
-                name: maurogpt2-service  # REPLACE IF DIFFERENT
+                name: maurogpt2-service  # UPDATE THIS WITH ACTUAL SERVICE NAME IF DIFFERENT
                 port:
-                  number: 8000
+                  number: 8000  # UPDATE THIS IF APP PORT IS NOT 8000
           
-          # lotusAI
+          # lotusAI (bookmark direct: /lotusai/)
           - path: /lotusai(/|$)(.*)
             pathType: Prefix
             backend:
               service:
-                name: lotusai-service  # REPLACE IF DIFFERENT
+                name: lotusai-service  # UPDATE THIS WITH ACTUAL SERVICE NAME IF DIFFERENT
                 port:
-                  number: 8000
+                  number: 8000  # UPDATE THIS IF APP PORT IS NOT 8000
           
-          # ThuleGPT
+          # ThuleGPT (bookmark direct: /thulegpt/)
           - path: /thulegpt(/|$)(.*)
             pathType: Prefix
             backend:
               service:
-                name: thulegpt-service  # REPLACE IF DIFFERENT
+                name: thulegpt-service  # UPDATE THIS WITH ACTUAL SERVICE NAME IF DIFFERENT
                 port:
-                  number: 8000
+                  number: 8000  # UPDATE THIS IF APP PORT IS NOT 8000
           
-          # FuelGPT
+          # FuelGPT (bookmark direct: /fuelgpt/)
           - path: /fuelgpt(/|$)(.*)
             pathType: Prefix
             backend:
               service:
-                name: fuelgpt-service  # REPLACE IF DIFFERENT
+                name: fuelgpt-service  # UPDATE THIS WITH ACTUAL SERVICE NAME IF DIFFERENT
                 port:
-                  number: 8000
+                  number: 8000  # UPDATE THIS IF APP PORT IS NOT 8000
           
-          # SorterAI
+          # SorterAI (bookmark direct: /sorterai/)
           - path: /sorterai(/|$)(.*)
             pathType: Prefix
             backend:
               service:
-                name: sorterai-service  # REPLACE IF DIFFERENT
+                name: sorterai-service  # UPDATE THIS WITH ACTUAL SERVICE NAME IF DIFFERENT
                 port:
-                  number: 8000
+                  number: 8000  # UPDATE THIS IF APP PORT IS NOT 8000
           
-          # SpecIngestion
+          # SpecIngestion (bookmark direct: /specingestion/)
           - path: /specingestion(/|$)(.*)
             pathType: Prefix
             backend:
               service:
-                name: specingestion-service  # REPLACE IF DIFFERENT
+                name: specingestion-service  # UPDATE THIS WITH ACTUAL SERVICE NAME IF DIFFERENT
                 port:
-                  number: 8000
+                  number: 8000  # UPDATE THIS IF APP PORT IS NOT 8000
           
           # Health check endpoint (no auth)
           - path: /health
@@ -112,6 +113,5 @@ spec:
 
 # DEPLOYMENT NOTES:
 # 1. Apply in order: namespace/secrets, oauth2-proxy, model-selector, then this.
-# 2. Replace service names with your actual app service names.
-# 3. Test: After deploy, visit https://aaportal.inl.gov/ (expect login, then portal, then app proxy with header).
-# 4. If issues: kubectl logs -n portal <pod-name> for debugging.
+# 2. Test direct access: Visit https://aaportal.inl.gov/maurogpt2/ (expect login if needed, then app).
+# 3. If issues: Run kubectl describe ingress portal-ingress -n portal to check status.

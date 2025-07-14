@@ -16,7 +16,7 @@ index.html: |
 <style>
 body {
 font-family: -apple-system, BlinkMacSystemFont, “Segoe UI”, Roboto, sans-serif;
-background: linear-gradient(to bottom, #f0f8ff, #ffffff);  /* Light light blue background inspired by INL theme */
+background: linear-gradient(to bottom, #f0f8ff, #ffffff);
 margin: 0;
 padding: 0;
 color: #2c3e50;
@@ -31,18 +31,18 @@ h1 {
 text-align: center;
 font-size: 2.5em;
 margin-bottom: 40px;
-color: #07519e;  /* Dark blue for title, from INL palette */
+color: #07519e;
 font-weight: 300;
 letter-spacing: 1px;
 }
 .model-grid {
 display: grid;
-grid-template-columns: repeat(2, 1fr);  /* Two columns */
+grid-template-columns: repeat(2, 1fr);
 gap: 30px;
 }
 @media (max-width: 768px) {
 .model-grid {
-grid-template-columns: 1fr;  /* Stack to one column on mobile */
+grid-template-columns: 1fr;
 }
 }
 .model-card {
@@ -51,7 +51,7 @@ border-radius: 12px;
 padding: 25px;
 box-shadow: 0 4px 15px rgba(0,0,0,0.05);
 transition: transform 0.3s ease, box-shadow 0.3s ease;
-border: 1px solid #e0f2fe;  /* Light blue-tinted border for INL theme */
+border: 1px solid #e0f2fe;
 text-align: center;
 }
 .model-card:hover {
@@ -61,12 +61,12 @@ box-shadow: 0 8px 25px rgba(0,0,0,0.1);
 .model-title {
 font-size: 1.8em;
 margin-bottom: 15px;
-color: #f68c20;  /* Orange for model names, from INL palette */
+color: #f68c20;
 font-weight: 500;
 }
 .model-button {
 display: inline-block;
-background: #f68c20;  /* Orange for buttons, from INL palette (not overwhelming) */
+background: #f68c20;
 color: white;
 padding: 10px 20px;
 border-radius: 6px;
@@ -75,7 +75,7 @@ font-weight: 500;
 transition: background 0.3s ease;
 }
 .model-button:hover {
-background: #e67e22;  /* Slightly darker orange on hover */
+background: #e67e22;
 }
 .model-status {
 display: inline-block;
@@ -86,12 +86,12 @@ font-weight: 600;
 margin-bottom: 10px;
 }
 .status-active {
-background: #e6f7ff;  /* Light blue background for ACTIVE */
-color: #07519e;  /* Dark blue text for ACTIVE */
+background: #e6f7ff;
+color: #07519e;
 }
 .status-development {
 background: #fee2e2;
-color: #cf1e4c;  /* Red for In Development, from INL palette */
+color: #cf1e4c;
 }
 .footer {
 text-align: center;
@@ -211,6 +211,7 @@ spec:
 selector:
 app: model-selector
 ports:
+
 - name: http
-port: 80
-targetPort: http
+  port: 80
+  targetPort: http

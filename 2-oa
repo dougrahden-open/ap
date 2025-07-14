@@ -10,10 +10,10 @@ data:
     # Provider Configuration
     provider = "oidc"
     provider_display_name = "INL Okta"
-    oidc_issuer_url = "https://inl.okta.com/oauth2/default"  # Confirm this URL with your Okta setup
+    oidc_issuer_url = "https://inl.okta.com/oauth2/default"  # UPDATE THIS IF YOUR OKTA ISSUER URL IS DIFFERENT
 
     # This must match the Okta app configuration exactly
-    redirect_url = "https://aaportal.inl.gov/authorization-code/callback"  # Exact match to your spec; change to http if no HTTPS
+    redirect_url = "https://aaportal.inl.gov/authorization-code/callback"  # UPDATE THIS TO http IF SKIPPING HTTPS
 
     # Custom paths to match your requirements
     auth_url_path = "/authorization-code/start"
@@ -26,7 +26,7 @@ data:
     email_domains = ["inl.gov"]
 
     # Cookie settings for security (set cookie_secure=false if no HTTPS)
-    cookie_secure = true  # Change to false for HTTP testing
+    cookie_secure = true  # CHANGE TO false IF SKIPPING HTTPS
     cookie_httponly = true
     cookie_samesite = "lax"
     cookie_expire = "12h"

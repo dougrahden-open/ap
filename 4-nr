@@ -1,0 +1,117 @@
+# This defines how URLs map to the actual model services (NGINX version)
+
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: portal-ingress
+  namespace: portal
+  annotations:
+    # Enable nginx-specific features
+    nginx.ingress.kubernetes.io/auth-url: "http://oauth2-proxy.portal.svc.cluster.local:4180/authorization-code/auth"
+    nginx.ingress.kubernetes.io/auth-signin: "https://aaportal.inl.gov/authorization-code/start?rd=$escaped_request_uri"  # Change to http if no HTTPS
+    nginx.ingress.kubernetes.io/auth-response-headers: "X-Auth-Request-User,X-Auth-Request-Email,X-Auth-Request-Preferred-Username,X-Auth-Request-Access-Token"
+    nginx.ingress.kubernetes.io/configuration-snippet: |
+      auth_request_set $user $upstream_http_x_auth_request_preferred_username;
+      proxy_set_header X-Username $user;  # Injects email for apps
+    # URL rewriting for models
+    nginx.ingress.kubernetes.io/rewrite-target: /$2
+    # Increase proxy timeouts for GenAI inference
+    nginx.ingress.kubernetes.io/proxy-connect-timeout: "600"
+    nginx.ingress.kubernetes.io/proxy-send-timeout: "1800"
+    nginx.ingress.kubernetes.io/proxy-read-timeout: "1800"
+spec:
+  ingressClassName: nginx  # Confirmed for your BCM setup
+  tls:
+    - hosts:
+        - aaportal.inl.gov
+      secretName: aaportal-tls  # Remove whole tls block for HTTP
+  rules:
+    - host: aaportal.inl.gov
+      http:
+        paths:
+          # Auth endpoints (no auth required here!)
+          - path: /authorization-code
+            pathType: Prefix
+            backend:
+              service:
+                name: oauth2-proxy
+                port:
+                  number: 4180
+          
+          # Model selector homepage
+          - path: /
+            pathType: Exact
+            backend:
+              service:
+                name: model-selector
+                port:
+                  number: 80
+          
+          # MauroGPT2
+          - path: /maurogpt2(/|$)(.*)
+            pathType: Prefix
+            backend:
+              service:
+                name: maurogpt2-service  # REPLACE IF DIFFERENT
+                port:
+                  number: 8000
+          
+          # lotusAI
+          - path: /lotusai(/|$)(.*)
+            pathType: Prefix
+            backend:
+              service:
+                name: lotusai-service  # REPLACE IF DIFFERENT
+                port:
+                  number: 8000
+          
+          # ThuleGPT
+          - path: /thulegpt(/|$)(.*)
+            pathType: Prefix
+            backend:
+              service:
+                name: thulegpt-service  # REPLACE IF DIFFERENT
+                port:
+                  number: 8000
+          
+          # FuelGPT
+          - path: /fuelgpt(/|$)(.*)
+            pathType: Prefix
+            backend:
+              service:
+                name: fuelgpt-service  # REPLACE IF DIFFERENT
+                port:
+                  number: 8000
+          
+          # SorterAI
+          - path: /sorterai(/|$)(.*)
+            pathType: Prefix
+            backend:
+              service:
+                name: sorterai-service  # REPLACE IF DIFFERENT
+                port:
+                  number: 8000
+          
+          # SpecIngestion
+          - path: /specingestion(/|$)(.*)
+            pathType: Prefix
+            backend:
+              service:
+                name: specingestion-service  # REPLACE IF DIFFERENT
+                port:
+                  number: 8000
+          
+          # Health check endpoint (no auth)
+          - path: /health
+            pathType: Exact
+            backend:
+              service:
+                name: model-selector
+                port:
+                  number: 80
+
+# DEPLOYMENT NOTES:
+# 1. Apply in order: namespace/secrets, oauth2-proxy, model-selector, then this.
+# 2. Replace service names with your actual app service names.
+# 3. Test: After deploy, visit https://aaportal.inl.gov/ (expect login, then portal, then app proxy with header).
+# 4. If issues: kubectl logs -n portal <pod-name> for debugging.

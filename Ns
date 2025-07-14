@@ -1,0 +1,26 @@
+# This creates the isolated workspace for the portal
+
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: portal
+  labels:
+    name: portal
+    purpose: model-gateway
+
+-----
+
+# NOTE: Create the actual secrets after applying this file
+
+# Run this command with the Okta credentials:
+#
+# kubectl create secret generic oauth2-proxy-secrets \
+#   --namespace=portal \
+#   --from-literal=client-id="YOUR_OKTA_CLIENT_ID_HERE" \
+#   --from-literal=client-secret="YOUR_OKTA_CLIENT_SECRET_HERE" \
+#   --from-literal=cookie-secret="$(python -c 'import secrets; print(secrets.token_urlsafe(32))')"
+
+# For HTTPS (recommended): Run the Python script above to generate tls.crt and tls.key, then:
+# kubectl create secret tls aaportal-tls --namespace=portal --key=tls.key --cert=tls.crt
+# (This creates a 1-year self-signed cert; bypass browser warnings internally)
+# If skipping HTTPS: No need for this secret; remove TLS sections from ingress YAML, change "https://" to "http://" in configs, and set cookie_secure=false in oauth2-proxy.cfg.

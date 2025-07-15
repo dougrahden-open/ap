@@ -1,3 +1,4 @@
+#namespace-and-secrets.yaml
 # This creates the isolated workspace for the portal
 
 apiVersion: v1

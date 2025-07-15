@@ -1,3 +1,4 @@
+# nginx-ingress-routes.yaml
 # This defines how URLs map to the actual model services (NGINX version)
 # Direct access like /maurogpt2/ works here - users can bookmark and go straight to app after login
 

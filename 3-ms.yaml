@@ -1,3 +1,4 @@
+# model-selector.yaml
 # This creates the portal homepage where users select models (static HTML for simplicity)
 
 apiVersion: v1

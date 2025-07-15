@@ -1,0 +1,2605 @@
+• • • gtMrate_cms.py
+~ ) M039v2 ) scr"'5 ) ' •. m11U109Pt2 > e web_interfaa:
+1 I u -aoctei.py. ~· HlluroGPT 2.8 Techniclll Docia ,,,sgt:1
+2 I Gl't.Hlp~iaized Version with Authentic.tian illld S..rt
+J
+llunCIII Rwi llekM ( DebugCII
+4 illlld Dependencies
+1~ 5
+• Ill..__, 6
+.1 7: I Set aeaar-y allocation strateafes BEFORE any
+(0 ·:, • , a't) os .environ[' PVT<ROLCI.DA....All0C_C<Ja'' J • 'expandabl~sepents :True•
+, ,;.: 9· • os.emrinm['CWA....LAIKH_BLOCXIN6'] • '1' • Better -ry •
+10 os.environ['CWA....VISIBL~DMCES'J .• ·e· I Force 6PU I
+u :•:
+12
+• Suppress nrnincs
+13
+iaport wami1115
+14
+wal"'llin&s.filte,-minp(•i&Jll)re•• aess~•.~xpandable_sepents.*")
+15
+16
+wamin&S,fllte,-minp(•~•.,1 s~•.•is not marked as EOG.••)
+17
+U111Drt asyncio "
+18
+fna pllttllib iaport Patti ~·
+19
+frm typina iaport List. Diet. Option;il
+20
+frm datl!ti.lae iaport clat~ . '·
+21
+frm contextlib iaport asynccoiit
+22
+iaport jsan ""
+23
+iaport ac I for &•l"b.-e collection
+24
+iaport traceback
+2S
+iaport subprocess • for runninc external c-ds
+26
+27
+I PATOI: Fix flashAttentionKwares iiil,ort erro~ before iaportina transfol'Rrs. . •
+·--
+28
+• •
+-.,..,~sys • •.-.·
+-~- ·,·
+29
+fna types iaport Shp].eN111espace • •
+30
+-'
+n
+I Create II aock aodule for flash 11ttffltion utils
+32
+class ftlclcflashAttention: "· •
+33
+flasllAttentionlCar-.s • Sill>leHaaespace
+34
+35 I Patch it into sys.aodules before transforRrs tries to iilpart it
+36 sys.aodules[ •transforRl'S .aodelin&..flash_attention_utils • J • AlckflashAttent:ion()
+37
+38 iaport uvicom
+39 frm fastllpi illport FastAPI. HTTPException. Header. ~
+40 frm f11st11pi.responses uport HTKLResponse. ORJSONResponse. FileResponse
+41 frm pydantic illport Baseflxlel
+42
+43 U11Drt chl'Olaadb
+44 frm chroudb.canfia illlport Settinas
+45 frm sentenc~transforRrs illport SentenceTransfonaer
+46 illport torch
+47 iaport orjson
+48 iaport psutU
+49 iaport pynval 11s nVlll
+se
+51 I laport Uau-cpp for Al aodel
+52 try:
+53 fna llal_cpp iaport u-. Uu•Gr-r
+54 iaportU...,.cpp
+5S LUM,\..CPP ,>VAilABLE • True
+56 print(f"ll--cpp-python loaded successfUUy (version: {llaa_.cpp,_~si!ll'l.-})•)
+57 except Ia:IOl'1~,rror:
+58 UAMA_CPP_AVAILABLE • false
+59 print(."WAiAHD'li: llau•cpp-python not installed. AI mdel will not be avallallle,•)
+6e
+61 I Enabll! TF32 for A68e8
+62 torcll.l>ackends.cuu.Mtail,all°'-tf32 • True
+H torch.llackends,cudM.allOlf_tf32 • True
+65
+16
+bCII I ltwl -I Dobug Col
+• D Cell 2: Updated ConfllW'•tion with SUrt PathS
+0 67
+I Detect lf nrnnina ln container
+IS COITAI1£R • os.Nth.edsts("/ .dllckl!renV-) or os,envlron,aet(•IQlllmtefS SERVICI tGST-) ts ntlt llon~
+ft.l®o/A':
+&IIUll,011111 ..-:e
+✓
+-
+•
+. . .
+I • I) W,U::lliii.l~Wio'..i:.il. . :.·.;@:11:lmmg•---
+0~
+p>
+70 # Base directo .• 0tM,WJ,£Wii~•;@~ :1Mibi!iMli •
+71 :!!ASE~DJR = Pat • . '·. ,;. I,.,_".•••,---:.•. •
+·: ': .:,._·:-~-.'":,::•;,~".,~,,
+72
+-~
+73
+# Smart pathiconfiguration
+"
+74
+if IS CONTAINER:
+- . :
+75 I #-Container/Kubernetes paths,
+76 ENGil'IE_DIR = Path("/app/data/chroma·
+77 PDF DIR = Path("/app/data/pdfs") i;.,"
+78 , ~;l'l:JDELS_DIR.; Path("/app/models")~· •
+79 . :f'! ALlOHED USERS PAllt ;,; Path(" /app/config/allowed-users, :txt•)·
+·s0~~tlelse: - .)-,.:-;,;:.:>r:titi~r • • - --
+~ ,::'. <
+_;81/ • • -: # Local development paths. .
+;,82 · ENGIN!;_DlR = BASE_DIR / "Engine"
+s3 PDF DIR = BAS!;_llIR / "inputs;~;, "prepped-pdi
+84 MODELS_i>IR = BASE_Dl,ll / "mode1s:;x>{:""'" .n'./ . . ; • ,: : :'
+..
+Alltll-lEi> USERS PATH·;. Path(r"\\fsgp\Projects\aa;maurogptcevinci-admin\maurogpt2•users,txt")
+85
+86 -: "·'$: ·- • · •. • • ·--
+_., . rs- ·
+87 # Alloio environmen!_:211err!,~:~.!:.. any PB'\=h, c:, •. . , .• ··,:,,: • •
+88 ENGIN!;_DIR = Path(os.environ,cet("MAUROGPT2_ENGINE_OIR", str(ENGINE_DIR)))
+89 PDF ,.:DIR = l'ath(os.environ·;get("MAUROGPT2._PDF _DIR", str(PDF _DIR)))
+90 MODEIS_DIR = Path(os.environ.cet("MAUROGPT2_r,'DDELS_DIR", str(MODELS_DIR)))
+91 AllOWED_USERS_PATH ,: "P!th( OS. environ. get( "MAUROGPT2_USERS_FILE ", str(ALLOI-IED_USERS_PATH)))
+92 . 71"!-.w ... /lfJf;..,,>
+93 # Templates and static (not· used but kept for compatibility)
+94 TEMPLATES_DIR = BASE_DIR / "templates"
+95 STATic_DIR = BASE_DIR / "static"
+97 print(f''Running in {'container' if IS_CONTAINER else 'local'} mode")
+98 print(f"ChromaDB: {ENGIN!;_DIR}")
+99 print(f"PDFs: {PDF _DIR}")
+100 print(f"Models: {MOOEIS_DIR}")
+101 print(f"Users file: {ALLOl~ED_USERS_PATH}")
+102
+103
+# Model configurations ••ith updated GPU settings
+104
+MOOEIS_CONFIG = {
+105
+"level5": {
+106
+11 name11
+: "Level 5",
+107
+"filename": "qwen2.S-7b•instruct-q4_k_m•00001•of•00002.gguf",
+108
+"description": "4.3GB • Fastest",
+109
+"n_gpu_layers": 35, # Specific layer count for better control
+110
+•n_batch": S12,
+111
+"n_threads": 1 # Minimal CPU threads when using GPU
+112
+113
+"level4": {
+114
+11 name": 11 Level 4".,
+115
+I
+"filename": "qwen2,5·7b•instruct•q5.J<_m•00001•of•00002,gguf",
+116
+"description•: "5,36B - Balanced",
+117
+I
+11 n_apu_layers11
+: 35•
+118
+119
+I
+"n_batchn: 512•
+"n_threads": 1
+120
+121
+11 level3": (
+122
+"name": "Level 311
+.,
+123
+•filename": "qwen2.5·7b•instruct-q6.J<•00001•of•00002,eeuf",
+124
+"description"1 "6,0GB - Quality",
+125
+"n..JIPUJayers": 35,
+126
+"n_batch": 512,
+127
+I
+"n_threads"1 1
+128
+},
+129
+"leve12•1 {
+138
+131
+I
+"name": "Level 2",
+"filename"1 •qwen2,5·7b-instruct-qB_0•000111•0f•00803,11&uf"
+132
+"description" 1 "8, 1GB • Premium", •
+133
+I
+"11,.J1pu_1ayers"1 35,
+134
+i
+"n_batch": 256, # Smaller batch for laraer model
+135
+I
+"n_threads": 1
+136
+{S) 137
+138
+W@o.t.o
+~ Ln t.211. cone
+.,.-· •··· .
+-
+•· ,ri· •1+ maurogpl2-m-l.PY e ,S, ~en<rat,_corts.py '
+\ l!ij). "'.p: > aa039Y2 >scripts> + maurogp!2-mo_dol.PY > li)~jnt,mce
+p t••,; 139, j •filename": •qwen2.S-7b-instruct-fp16·00001·of-00004.gguf",
+ti·,., 140 I .. description": n1s.SGB - Maximum•.
+• ,.' . ." 141- .. n.....EPLLlayers"; 35., # May need to adjust based on VRAM
+l9 t · 142 . nn_batch•: 128., # Smaller batch for FP16
+! :i•· 143 "'n_threads•: 1
+.6'> 1 144· }
+~\, !:!\_> -
+Ce r~. 14.~.,t·-r # Default model selectio!' _,:~ i_
+rr\f 148 ~ DEFAULT tmEL "" •tevel3~'.{"::,.t~
+83 r I 149. CURRENT=MOOEL • OEFAULT_iiiim.
+'(,. isi # ~~lodel paths :~II?
+A 152 BGE_r-mEL_PATH • MCX>ELS_OIR / •bge-large-en-v15"
+QIIJ'N_MOOEL_pAlll •. 1-DOELS_OIR / "q2-5-7b-instruct-gguf" / MODELS_CONFIG[CURREIITJ100ELJ["filename•J
+COLLECTION_NAME··~-. ~pdf_collection"
+•• ';.,,~·,.• .. ·;,· -
+.
+·,:Y.h~-. •, ·~:;,\ •. •
+# Updated search settinES
+OEFAULT_TOP _K ~ 40
+158
+OEFAULT_SDULARITY_CUTOFF • 0.2
+159
+MAX_CONTEXT_TOKENS ~ 4008 # Increased for 40 snippets
+160
+TOP_K_FOR_ANALVSIS • 48 # Send all 40 to AI for selection
+161
+162
+163
+164
+165
+# Server settings
+HOST c n0,0.0.0"
+PORT ::::i 8000
+DEBUG .,, True
+166
+167
+168
+169
+# Authentication settings
+ENABLE_AUTH c os.environ.gtt(n""'UR<XiPT2_ENABLE_AUTHna Qtruen).lower() =- "true"
+ALJTH_BYPASS_LOCAL • os.environ.aet("MAUROGPT2_AUTH_BYPASS_LOCAL•a ntrue").lolfer() - "true•
+170
+171
+172
+# Global model storage
+models • {}
+173
+174
+175
+# Simplified JSON grammar (removed to reduce CPU usage)
+USE_GRNViAR • False # Toggle this to disable eranmar for testing
+176
+177
+178
+179
+180
+181
+182
+183
+184
+185
+186
+187
+188
+189
+190
+191
+192
+193
+194
+195
+196
+197
+198
+199
+200
+201
+202
+® 203
+204
+a 205
+206
+w!J@o.ie,
+Run Celt I Run Above-/ Debug Cell
+# B Cell 3: ALrthentication Functions
+def load_al.l.owed_user-s() -> set:
+"''•toad allowed users from filen"•
+try:
+if ALLOHEO_USERS_PATH.exists():
+with open(ALLOWEO_USERS_PAJH~ 'r') as f:
+' users c {line.str.toO.uPPerO for line inf if line.strip() and not line.startmitll('••»
+print{fgloadcd {len(users)} allowed users from {ALL(l,JEO_USERS_PATH}"')
+return users
+else:
+print(f"liARNING: Users file not found at {ALL0'-JED_U5ERS_PATH}'")
+return set()
+except Exception es e:
+print(f•ERROR loadine users file: {c}'")
+return set()
+def check_llsu Jccess(uscrname: str) -> bool:
+•••Check if user is ell0111ed access•-•
+# Skip euth in local mode if bypass is enabled
+if not JS_Cafl"AINER and AUTH_BYPASS_LOCAL:
+return True
+# Skip euth if disabled
+if not ENABLE.,JWTH:
+return True
+if not uscrname:
+return False
+----·•--
+,S.mw-t2•~·•i-,s.;.;,·-··· -;~1--·•
+0: > .. 039v2 > saipts > c, ~awogpt2-modtl.W > (i) ~_tnl;,;.ce .. ---·-·
+194 def cllock.,usor _access(usornamo: str) •> bool:
+.c:G:) f l"t:LUl-,l t'cll.Se
+206
+Ce
+207 alloNO<Lusors • loa"-.au-d,..usors(), •
+208
+-· • .• \ .·;·-;;?,_,~:ftt\f':':.;}~--~·- f.'j..
+209
+210
+# If no users file or __ enpty.,·· deny eccess (feil secure)
+if not al101..iecL_USer.Si f'.t\:: :-~·:i~:}: •
+211
+212
+l ··: print("No ~~' ... ~.•rs.·,,,:.f<>•nd· • denyina access•)
+return False,;.;...·-:,. •-,-/:,.~:~'"-: •
+213
+. -.:: '.:.{l/~?_·t- ?·-...--:,/'-. ·.-~
+214
+= Case-insensitive comparison
+215
+: ~s_allowed • _ username~upper() in allowect_users
+216
+217
+218
+219
+I
+iT not is_allo~:
+I print(f•Access denied for user: {username}n)
+220
+221
+I
+return is_allowed
+222
+223
+224
+Run C.i'.1 I Run AbOve I Debug Cell
+# U Cell 4: Data Models (unchane:ed)
+class SeerchRequest(Baseflodel):
+question: str
+include_.analysis: Optional[bool) • True
+225
+226
+227
+228
+229
+230
+231
+232
+233
+class SearchResult(BaseModel):
+document: str
+source_pdf: str
+pae:e_number: int
+similarity_score: -float
+chunk_index: int
+234
+235
+236
+237
+238
+class Citation(BllseModel):
+source_pdf: str
+pae:e_number: int
+relevance_note: str
+239
+240
+241
+242
+243
+244
+245
+246
+247
+248
+249
+250
+251
+252
+253
+254
+255
+256
+257
+class AnalysisResult(Baseftodel):
+answer: str
+citations: list[Citetion)
+class SearchResponse(BaseHodel):
+question: str
+results: List[~archResult]
+analysis: Optional[AnalysisAesultJ • None
+processinLtime: float
+total_results: int
+results_sent_to_ai: int
+class HealthRespons~(BaseHodel)t
+status: str
+models_loaded: Dict[str# boolJ
+database_status: str
+tirnestamp: str
+syste~o: Optional[Dict] • Hone
+®
+Rurt c,u I Rurt AboM I Oebug C.D
+256
+• U Cell 5: Model Load.in& Functions 1rl.th GPU Verification
+259
+260
+261
+262
+263
+264
+265
+266
+267
+268
+def checJ<..cudo_status():
+•••verify Cl.DA •nd GPU st•tus•••
+print("'\n••• GPU St•tus Check •••"')
+if torch.cudo.is_avau.tJle():
+Pl"int(f•CUOA Avoilablet Yes"')
+print(f•QOA Version: {torch.vttsion~cudo}•)
+print(f"GPU Device: (torch.cuO•.set...devic._.._(e)}")
+print(f"GPU Hmory: (torch.cud•-~i . ..,_,,,._,,..l,es(8),tot•:i..-r,, I 1e9: ,1f} 68")
+else:
+269
+print("'COOA Available: No"')
+270
+271
+• Check 11•1:.&•cpp C\.OA support
+I>'] ®o.t.o
+;;;..;...----,-------------------
+------
+.,. ,,,..ffll!ll'f2-madelW • ,s. generote._«rts.py :;:c-'-"-:--:-:"".:'.'!!'l~~'""'."'!'.""___________ ____ _
+o: > aa039Y2 > safpls > + maurogpt2-modol.py > Ii) wel>_fnlefface
+260 def~c1Lcud~~(): _
+270
+271
+# Check llama-cpp Cll)A support
+272
+if LLAMA CPP AVAILABLE: ,·:
+273
+print("\;;Checking llama-cpp-python GPU ~upport ••• •)
+274
+try:
+275
+# Try to get build info
+276
+,_ resu1t ~ subprocess.n,n(["python•~ •-c•.,
+Ce
+277
+)::·_ I :import llam.-_cpp; print(llamcLC_~.~~_ .. ·~ama,_backe~d_init(numaefals~)) • ],.
+I
+278
+.. :·~ 1 captu~output-True., text-True) i.:,;:
+279
+0 /\ if result.returncode - e::Jl!llfli,.. -~,
+280
+·-'
+1l·.·.' print(•11ama-cpp backend ~f:tia~ized successfully")
+281
+except: •·.;
+282
+I
+283
+print(•==-==~~-~=\n•)
+284
+286 •• I it.\ •--L-oad_ BGE embedding model t"d.th optimizations•••
+255:;;i, async def loocl.~mdel.():
+287 ~print("Loalling •mbedding -•l ... ")
+288
+289 if not torch.cuda.i.5....iav,dLoblle():
+290 I raise RuntimeError(•CUDA is ~uired but not available•)
+291
+292
+try:
+293
+294
+295
+I 'fflOdel "" SentenceTransfonner(str(BGE_K>OEL_PATH)6
+device,.• cuda •)
+# t-1ove to half precision to save memory
+296
+-•l.ha1f'()
+297
+298
+print(f""Embcddine model loaded successfully on GPU")
+299
+300
+# Clear cache after loadine
+301
+torch.cuda.ell!PtY_cadte()
+302
+' I
+303
+I
+return model
+304
+except Exception as e:
+305
+306
+I print(f•Error loadina embeddine model:
+{•}")
+return None
+307
+308
+async def loml..!-=-•el():
+309
+•••Load AI analysis model ldth explicit GPU confieuration•••
+310
+model_confie - MODELS_CCWFiG.p-t(CURRENT_OODEL. 11'.)0flS_CONFIG[DEfAULT_MOOELJ)
+311
+aodel_path • f,10DELS_OIR I •q2•5•7b-instruct-aeuf• I model_confie(•filenaae•J
+312
+313
+print(f""Loadine AI analysis model: {mode~config["name")} •.. •)
+314
+print(f"Hod•l path: {mad•J,..poth}")
+315
+316
+if not LLAMA_CPP _AVAILABLE:
+317
+318
+I print:C-ERROR: llama•cpp•python not available•)
+ret:um None
+319
+320
+try:
+321
+' • Check if model file exists
+322
+if not -•l,J>Oth.Oldrts():
+323
+/ print(f"ERROR: lt>dol file not found: {modoJ,..poth)")
+324
+return None
+325
+326
+• Clear GPU memory before loadins
+327
+if torch.cudo.f.s_ov.n.ble(),
+328
+tordl.cudo.~..udm()
+329
+&<,collect()
+330
+331
+• Load the GGUF model ~ith explicit 6PU confiauration
+332
+prlnt(f"Confl.aurina Nith ~•l...conflji['"-"""--••rs•J} GPU hyers •.. •)
+333
+®
+334
+aadel • U_.(
+335
+acfd,._pa.th-str(IIDde1..J)eth),
+e
+336
+n..nx-atJ. • 8K context ld.ndow
+337
+W@o.io- -
+. .. ... ... . ... ,.
+40deL<onf;i,t["n.APu_leye,rs•J, • ExpUdt bYff cow,t
+..
+.......,
+~~++·------------------ -- - -
+,s. 1Mun,gpt2-mode14>Y • + g,n,ra!'-_ ,:,_,_,;.11sc.·:~_i- __ 'c·:'-'---,-,.-,.-.,
+L!
+D: > aaO39Y2 > scripts > ♦ maurogpt2-modeLpy > G) webJntertau '
+p}
+308 lasync def load_q.,.,n_JIOdel(): . _
+jJb - --
+337 I . • n ctX=tu~l. .Jr tsll context w1na0~, r.a~.
+n::epu_layerssmodel_,_confie['n_gpu_layers'J, # Explicit layer count
+338
+n batchsmodel_,_confie[''Lbatch'J, # From config.
+339
+v;rbose=False. # Disable verbose output
+340
+seed•-1, # Random seed ~'h ..
+341
+n_threads-model_,_confie[ 'FL threads 'l, # Minimal CPU threads
+342
+n_threads_batc~eJ._confie:( 'n_threads 1 h ;· # Also for batch processing
+lil
+343
+use_map•True, # Memory-map the mode~~~
+344
+use_mlock-False, # Don't lock memory'~'
+~l
+,,:·-~
+345
+# Force GPU usage .-·
+346
+main...,gpua:8, # Use GPU 0 :r·
+347
+tensor_spUt-None. # Use default tensor split
+348
+# Use model default
+349
+350
+351
+352
+print(f•AI model loadl!d successfully: {model_confia['description")}")
+,,. 'ti ---
+353 354/._, t,
+355(", ·,
+• •~ # Test inference to ensure GPU is being used
+• "? print(•Testing model inference ... "')
+356
+• t~result = model.("Test"',. ma>t_tokens-1,. temperaturec9)
+357
+print(0 Model inference test successful.,)
+358
+359
+# Report GPU memory usage
+360
+if torch.cuda.is_available():
+361
+try:
+362
+nvllll.nvmllnit()
+363
+handle= nvml.llVdllleviceGetlfandlellyindex(0)
+364
+mem_info = nvml.nv.J.Device6t,ttll,,.,ryinfo(handle)
+365
+used_gb c mem_info.used I (1024 ... 3)
+366
+total_gb • ml!ID_info.total / (1024••3)
+367
+print(f•GPU Memory after loading: {used_gb:.lf}GB / {total_lb:.lf}GB•)
+368
+369
+except: I pass
+370
+371
+return {"model": model .. •config": rnodel_confie}
+372
+373
+except Exception as e:
+374
+print(f"frror loading AI model:
+{str(e)}")
+375
+traceback.print_exc()
+376
+I I
+retum None
+377
+378
+379
+380
+381
+async def load_dtromadb():
+I """Connect to ChranaOB"'' ...
+print("Connectine to vector database ... •)
+try:
+382
+383
+384
+385
+386
+client c chromadb.Persistentelient(
+I path•str(ENGINE_DIR).a
+settincs•Settings (
+j anonymized_telemetry-False,.
+/ l) allow_reset-True
+387
+388
+389
+390
+391
+392
+393
+394
+395
+)
+collection• client,aet;_collection(COLLECTION_N.AME)
+count• collection.count()
+print(f"Database connected: {count:,} embeddinas available•)
+return collection
+except Exception as e:
+I print(f•Errcr connecting to database: {e}")
+return None
+396
+397
+398
+399
+async def loa,...,..,.,_,...,.,is():
+/ •"•toad all models concurrently•••
+print(•Stllrtine model loadine: process ... u)
+®
+400
+401
+402
+1
+! # Check GPU stetus f'irst
+check_cvda_,stetus()
+e
+403
+4'14
+ffi@o.t.o tu,,. f'11~lr • 1NUI h .. __.,.11\
+---.
+~
+~
+417 ·,:.'~
+', ' 4·1sP
+'
+I
+419
+I; 420
+421
+422
+423
+424
+425
+426
+427
+®
+0
+428
+429
+430
+431
+432
+433
+434
+435
+436
+437
+438
+439
+440
+441
+442
+443
+444
+445
+446
+447
+448
+449
+450
+451
+452
+453
+454
+455
+456
+457
+458
+459
+460
+461
+462
+463
+464
+465
+466
+467
+468
+469
+12i®o.i!.o
++ mauragptZ-madel.pyJI! 1 gtntfO C
+D: > aa039V2 > scripts > + mawogpt2-model,py > 1
+397. ~Y~: .. ~~!}~~~~~~15.p rill
+de"'fl I
+: ' ,,.-:11&
+~IJllir'ftliiim
+,,,._ ,:.[ . .
+models["bge"J •'bg~moclel
+BK)dels["qwen'"] ,::._ qwen
+madels["chromadb"J • Chl'Olladb
+loaded·~ s•(l form in [b1~mad , qwen~ chromadbJ if mis not None)
+pr int(~\n{l "· ssfully")
+., .
+'·
+:~, • if loaded < •3:
+'i' •I· print("\nl·IARNING:
+, ,. I
+en s loaded:")
+:, !; _,. if, not bg~model: __ ,,.._.,
+<: I printC ~ Embedding model failed to load")
+if not qwen: ~ •
+I print(•· • AI analysis madd failed to load")
+if not chromadb:
+I print(• • Database failed to connect")
+Run Cell I Run Above I Debug Cell
+# iOi Cell 6: Vector Search Functions (optimized)
+def searcll..doclllll!nts(
+I question: str.,.
+top_k: int • DEFAULT_TOP_K,
+sinlilarizy_cutoff: float - DEFAULT_SIMILARITY_CUTOFF
+) ·> Diet:
+I "'"•Search documents using BGE embeddings"'•"
+start_time • datetime.n<M()
+# Get models
+embeddinLmodel • models.1et("bge")
+collection• maclels.aet("chromadb")
+if not embeddinLfflOdel or not collection:
+I raise tmPException(status_code-500, <letail•"Models not loaded")
+# Generate query embeddine
+with torch.cuda.amp.autocast(): # Use automatic mixed precision
+I query_embedding • en>eddinLJ!!odel.encacle(
+I [question),
+I nonrmlize_embeddings•True.
+convert_to_tensor-True.
+1 device•• cucfa '•
+J shDW...J)roeressJ)ar-False
+).cpu().nw,py().tolist()
+# Clear GPU cache after encocfina
+torch.cuda.-ty_c,,che()
+# Search ChromaOB
+results• collection.query(
+i query_-ddinp•query_en>edd.l,,ji,
+i n.results-aln(topJ< • 2, 100),
+I include-["doctnents" • •metadatas•• •distances•)
+)
+# Extract results
+doc-nts • results["documents"J[eJ
+Rtadatas • results["metadatas"J[8J
+distances• results["distances"J[eJ
+search_results • ()
+- -
+- -;~j,: . ..,.. .• ~,.~/~',f\'ft\~:~· ;"-~!'.:-';';
+.· -.:,-~{~/-· .. ~. ':~ ·_· ··:_:, ___ ..... __
+•.
+•• 1,; _;.
+;;_,a~ch mults = []
+for, d,:C, • ~; dist in zip(documents. p(docw sillilarity = 1
+~ dist
+if similarity >= sinlilarity_cutoff:
+searcll_results.append({
+document": do
+source_pdf": meta.get("source_pdf
+"paj!
+e_ninber": meta.get("page_n
+"chlJ
+hunk_index": ileta.get("chu
+•sin
+··imi.lari •: simlari:
+:-wo-;..i_count•:
+rnet:adatas, distances):
+'
+A :iX{~
+481
+I@] 482
+483
+484
+485
+r 486
+487
+I 488
+489
+I 490
+I 491
+I 492
+I 493
+494
+495
+496
+497
+498
+499
+500
+501
+502
+503
+504
+505
+506
+507
+508
+509
+510
+511
+512
+513
+514
+515
+516
+517
+518
+519
+520
+521
+522
+523
+524
+525
+526
+527
+528
+529
+530
+® 531
+532
+e 533
+534
+'" l?,i®o&o
+--···:,,., __
+# Sort by' similarity and trim to top_k
+search_results.sort(key=lambda x: x["similarity_score"J• n:verse=True) n:verse=True)
+J. n:verse=True)
+search_ ,=. search_re.sults[;top_k]
+' ; .. ,/!"' ]~{ ~/~~".,,
+# Build context for Irr - now sending all 40
+context;_re.sults = search_results[: lOP _K_FOR_ANAL YSIS]
+context_lines = []
+tokens_used = e
+for i, result in enU11erate(context_re.sults):
+filename= re.sult["source_pdf"]
+page= re.sult["page_number"]
+sillilarity = re.sult["similarity_score"J
+# Include snippet number for AI to reference
+line = f"[Snippet {i•l}: {filenillle} I page {page} I similarity {"sii-ni".llllri"ty: .4f}]\n{result["docr.nent"J.stri,J())•
+esl::imilt:ed_tokens = len(line.split()) • 1.3
+if tokens_used + estilnated_tokens > IWC_CONTEXT_TOKENS:
+I break
+context...).ines.append(line)
+tolcens_used ..., estimated_tolcens
+context_text = "\n\n" .jain(context...).ines)
+# More aggressive truncation if needed
+max_lfDJ"'ds ~ 3599 # Increased for 40 snippets
+..,n15 • context_text.spUt()
+if J.en(...,nls) > max_110rds:
+I context_text • • • .jain(ffllnls[:max_wonlsJ)
+processinL_time • (datetime.n .. () - start_time).
+print(f"Context: {len(context_J.ines)} snippets, -{int(len(MOnls) • 1.3)} tokens")
+int(len(MOnls) • 1.3)} tokens")
+return {
+I •results•: search_resu1.a.
+I
+"context•: cont~text,
+"processin1r....time": processing_time,
+I
+"total_results": J.en(searc:h.,,-esults)
+}
+RunC•U I Run Above IO.bug Cd
+# "'5 Cell 7: Optimized Analysis ftlnctions
+~ef ••• YZeJdtlt.ARn(question: str, context: str. iseardl.,n,s!llts1 List[DktJ) •> An!IJr.;ullesult:
+: Generate analysis usine Q1en with 11et1 format•••
+' qwen • IIDdels.set("qwen")
+if not Qllell:
+rrtum er,•-• ~allll&cl(Jesponse(questicx,• 5HN:b~!llts[ rJJ)
+llklel • q,..n("model "J
+m la1Ztl,Cf18 ~• 111N C111F
+~
+Pl
+~
+~·.·
+li1
+~e. , l
++ maurogpt2-model.PY • + gen~c<rts.PY
+D: > aa039Y2 > saipts > olo maurogpl2_,.;~del.py > ti) wet,Jnterfaae
+528 def •~~e-w!!!'~~(question: st~te>tl:;
+rodel = qwen["model"]
+536
+537
+538
+539
+# Monitor GPU usage before inference
+if torch.cuda.is_available():
+I torch.cuda.synchl"llflize()
+torch.cuda.enpt:y_cache()
+!EEnml4-ti'08 ~r"e'already in context
+# Ne11 prompt for the deSired foniiat
+syste11_asg ~ ""•You are a technical
+Lstant tha!'.~~nalyzes documents to answer questions.
+546 Your response fonnat:
+547_~ __ ,1'?-start with ONE clear~ ·direct answer. se:ntence
+•- 548·;;-t{i~Then provide bullet points with th·;·~st relevant infonnation from the BEST snippets (not just: the first ones)
+549' :>~,:3~1 End with a JSON citati~ block listing only the PDFs/pages you actually used
+550 ---: ~i~','3 ,_ t-,, • .,. .....
+Select only.the most re1evant snippets that directly answer the question. Quality over quantity~•an
+I user_mg c fn••Question: {question}
+I"ve provided 40 document snippets below. Analyze ALL of them and select only the BEST ones that answer the question.
+{context}
+Format your response as:
+1. One-line direct answer
+2. Bullet points summarizing the best evidence (no more than S points, only include what's truly relevant)
+3. JSON block with citations: {{•citations•: [{{nsource_pdf•: •filename.pdf•, •paee_number•: 123})]})•••
+I
+prompt• (
+I f"<lim_startl>syst10D\n{system_msg}<lim_endl>\n"
+T•<lim_startl>user\n{user_mse}<lim_endl>\n•
+f•<lim_startl>assistant\n•
+print(f"'Starting GPU inference with 40 snippets ...
+0 )
+sta~time • dat..time .naw()
+result: • model(
+proq,t.,
+max_tokens-880., # Increased for more detailed response
+1:emperature:-e.3.,
+'°tOJ)._J)-8 • 9.,
+1:opJc-48,
+repeat,.J>enalty.1.1#
+51:opa["<lim_endl>"J,
+echo--False#
+I stream-False
+)
+inference_time • (detetime.,-(). ste~t:lme) ..,,..,.U'OClll1
+Pf'int(f"Inference completed in {inferenc~timo;.~f}s") ds()
+l'eSPOns~text • result["choices"J[OJ["text"J
+®
+551
+552
+553
+554
+555
+556
+557
+558
+559
+560
+561
+562
+563
+564
+565
+566
+567
+568
+569
+570
+571
+572
+573
+574
+575
+576
+577
+578
+579
+580
+581
+582
+583
+584
+585
+586
+587
+588
+589
+598
+591
+592
+59)
+594
+595
+596
+507
+598
+•••
+a
+...
+601
+W@o&o
+-
+• Perse the ne11 fonnet response
+return .,.,...U,..~fi,,..iat """ PIN!se(re,pons~t•xt, •••rl:b.Jl'$Ult$)
+except Exception es e:
+:~::!:"'' du::)().,en inference: {otr{e)}")
+return ~f-cl\.n:s
+finally: PQnSe(quosu.,,,, oeor,;,,_,,.,,,!llt$[15J)
+• Cleein up GPU ,__.
+if to-~~ ---, efter infer'fl'lce
+, _. .. cude.Ss_eyeiJlab;Le()I
+~ ll
+'
+lfslf
+rai: ,e,J .,,,:Ji
+.. _._:.··' ,\.
+~·
+I
+.... 0. ~-
+~~f>·.
+,~.l 632
+-~ ' 633
+634
+635
+636
+637
+638
+639
+640
+641
+642
+i 643
+I 644
+645
+! 646
+, 647
+648
+649
+650
+651
+652
+653
+654
+655
+656
+657
+658
+659
+668
+661
+662
+663
+®
+664
+665
+0 666
+667
+m, @o,i,;
+I
+I
+I
+I
+if jso1\._start 'idx: > 0: . . •
+11.# _Extract-ans1.-er (ev~~hing before JSON)
+',Y answer _lines =- lines[ :json_start_idxJ
+answer .; • '\n • .join{answer _lines) .strip{)
+.,
+# Extract JSON
+json_text = • \n • .join(lines [json_start_idx: J)
+# Find the JSON object
+start= json_text.find('{')
+end= json_text.rfind('}') + 1
+if start >2 0 and end> start:
+json_str • json_text[start:end)
+data= json.loads(json_str)
+citations • [J
+for cite in data.,et("citations", CJ):
+citations .. append(Citation(
+source_pdfacite[ "source_pdf" J,
+I page..,;number•int( cite["page_number"J),
+I
+relevance_note•"Used in analysis"
+))
+if citations:
+/ return AnalysisResult(answer-answer, citations•citlltions)
+# If parsins fails, use the ~,hole response as answer
+answer• response_text.strip()
+except Exception as e:
+print( f"Error parsina response:
+I
+answer• response_text,strip()
+{e}")
+# Fallback: extract POF references from the ann,er text
+citations • [J
+pdf_refs • set()
+# Look for POF references in the respanse
+for result in search.results[:JeJ:
+' if result['source_pdf'J,Jower() in response_text,JolffrC)1
+I i pdf.J(ey • (result['source_pdf'J, result['pase.Jlumber'J)
+• if pdfJcey not in pdf_refs1
+pdf_refs,add(pdf.J(ey)
+citlltions.append(Citation(
+source_pdf•result['source_pdf'J,
+pase.J1W11ber•result['paseJ1umber'J,
+relevanceJ1ote•"Referenced in analysis"
+# If no citations found, add top results
+6 0 4 # maurogpt2-model.py g e n e r a s e r a
+Di > aa0392 › scripts › @ maurogpt2-modelipy › w e b Interface
+def parse_new format response(response texti s t r , search r e s u l t s List(Dict]) » › AnalysiaResulti
+6 6 6
+6 6 7
+# I f no citations found, add top results
+668
+1+ not citations:
+6 6 9
+f o r 1 , result i n enumerate(search_results 13))1
+670
+citations,append(Citation
+6 7 1
+source_pdfaresult('source_pdf'0, page number resultI"page number"s
+6 7 2
+6 7 3
+relevance_notef"Top s e a r c h r e s u l t "
+6 7 4
+6 7 5
+巴
+6 7 6 return AnalysisResultansweranswer, citations citations)
+6 7 7
+6 7 8
+6 7 9
+6 8 0
+6 8 1
+def create fallback response(question s t r , search results List[Dict]) -> AnalysisResults
+""Create a fallback response when t h e analysis model f a l l s " n
+# Simple one-line answer
+answer - "Based on the search results, here are the most relevant findings: \n\n"
+6 8 2
+6 8 3
+6 8 4
+6 8 5
+6 8 6
+6 8 7
+6 8 8
+6 8 9
+# Add bullet points from top results
+f o r 1 , result i n enumerate(search_results[ 13]):
+doc_text « result 'document ' ]
+sentences • doc_text.split('.')[*2]
+i f s e n t e n c e s :
+summary • ' . ',Join(sentences).strip()
+answer += f " • (summary\n"
+6 9 0
+6 9 1
+citations • [
+6 9 2
+C i t a t i o n
+6 9 3
+source_pafar['source_pdf'], page_numberar[ 'page_number'],
+6 9 4
+6 9 5
+relevance_note-"Search result used"
+6 9 6
+6 9 7 f o r r i n search results[13]
+6 9 8
+6 9 9
+7 0 0 return AnalyaisResult(answer-answer, citations-citations)
+701
+Run Cell | Run Above | Debug Cell
+# XX Ce11 8 : API Endpoints with GPU monitoring and Authentication
+7 0 2
+7 0 3
+7 0 4
+@asynccontextmanager async def 11fespan(apps FastAPI):
+7 0 5
+7 0 6
+*™"Load models on startup with GPU monitoring".
+7 8 7
+print ("Starting MauroGPT 2.0...")
+7 0 8
+7 0 9
+# Initialize NML f o r GPU monitoring
+710
+1 f torch.cuda.is_avallable(): nvm1.nvmlInit()
+7 1 1
+7 1 2
+7 1 3
+await Load_al2 models()
+714
+715
+y i e l d
+7 1 6
+717
+718
+7 1 9
+720
+print ("Shutting down MauroGPT 2.0...*)
+i f torch.cuda.is_avallable():
+torch.cuda.empty_cache()
+nwml.nvmlShutdown()
+721
+722
+7 2 4
+7 2 6
+727
+# Create PastAPI app
+a p p = F a s t A P I (
+title-"MauroGPT 2.0",
+description "Advanced Technical Document Search & Analysis System",
+versione"2.0.0",
+11fespan»11fespan,
+default_response_class-ORJSONResponsi
+8
+731
+7 3 2
+• POF serving endpoint
+g a p p . g e t （ " / p d f / （ f i l e n o n e : p a t h ） " ）
+asvne d e f serve odf(filename: s t r . usernames s t r = Query(None))!
+m e n
+===-- 7 '. .. -.'.·.,.:,··:, ;/· .• -
+....... ~-....~.,,...,.. ... -•
+4' mau~-inodel,py • •• _ j generate_ ce('ts,PY
+··:, '"'"··-
+.,
+O: > a~O39v2 > scripts ~ tli maurogpt2-model.py ) ti) webJntertace
+.... ...,_·..o.:-"!"-,c..-_t;-..,.··"',.;~ .• ~ •. ""·· "-
+. ..-:-.• .. ·-.--;:, _._ ... -a...: ...... ,:,.·'. ... •·····--'
+731 # PDF serving endpoint
+("/pdf/{filen ame:path}"
+f serve_pdf(fi~ None))l
+sername:
+Serve PDF files
+c.k authentic.at
+1:; chec~user..:,
+cess denied")
+..
+@:
+return fileRes e( • -11' '•' •
+• • 743. \, ,.path=pdf_path. •
+'·:· , media_~pe=~application/pdf" •
+·:,,--. 'filename,:filename •.
+\
+745
+746
+'headerse{"Content-Disposition": f"inline; filename={filename}"}
+747
+) •
+748 \ else:
+749 \ raise ITTTPException(status_codedl04• detail•f"PDF not found: {filename}")
+750
+751
+# Health c.hec.k endpoint with GPU monitoring
+752
+@app.get("/health"• response_model=HealthResponse)
+753 async. def health_check():
+754
+"""Health check \'lith GPU monitoring"'""
+755
+models_status = {
+756
+757
+\
+I "bge": models,get("bge") is not None.
+"qwen": models.get("qwen") is not None.
+758
+\ "chromadb": models,get("chromadb") is not None
+759
+}
+760
+761
+# System monitoring
+762
+q,u_percent = psutil.cpu,_percent(interval=0,1)
+763
+111<!mory = psutil.virtual___memory()
+764
+765
+# GPU monitoring
+766
+\
+gpu_info = {}
+767
+if torch.cuda.is_available():
+768
+\
+769
+I
+I try:
+I handle = nvml. nvmlDevice6et:HandleByindex(0)
+770
+!
+I gpu_memory a nvml.nvmlDeviceCietMemoryinfo(handle)
+771
+• \ gpu_temp = nvml.nvmlOeviceCietTemperature(handle. nvml,NIIIIL_TEMPERATURE_GPU)
+772
+\ gpu_util = nvml.nVlll1Device6etUtilizationRates(handle)
+773
+\
+, \ gpu_info ~ {
+774
+\
+\ "memory_used_gb": gpu_memory.used / (1024 .. 3).
+1
+775
+I 1 , "memory_total_gb": gpu_memory,total / (10~•3).
+776
+i
+! \ l .. temperature_c": gpu_temp.,
+I
+777
+\ i "gpu_utilization": gpu_util,gpu.
+778
+i
+I i "memory_utilization": gpu_util.111e11111ry
+779
+i
+i
+I }
+780
+I
+except:
+781
+: '
+gpu_j.nfo = {"error•: "Could not read GPU stats"}
+782
+783 dbj'tatus • "connected" if models.11et("chromadb") else "disconnected"
+784
+785
+return HealthResponse(
+786
+status•"healthy" if all(models_status,values()) else "degraded"•
+787
+models_loaded-modelsj'tatus.
+788
+database_status-dbj'tatus,
+789
+timest....,.datetime,now().lsoformat().
+790
+systemJnfo-{
+791
+"cpu_percent": cpu..J)ercent.,
+792
+"memory_percent": memory.percent.,
+793
+"'gpu'": 1puJnfo.,
+794
+"euth_enabled•: ENABLE...,AUTH.,
+795
+"container _mode": IS_COITTAINER
+796
+797 )
+u Main search endpoint with authentication
+IS] ..,,.,11,Co/1' ~4 1111'.a
+_ e ,PY, ·' _ .•
+·!<,, • :~:.-~,c.,c
+• > aaO39v2 > scripts > + maurogpt2-model.py > {i) web_interface
+"/api/search", response_model=SearchRes nse)
+;.;;.,,.-=--.earch_endpo' rname:
+search end oint with AI analysis"""
+authentic
+- -·~~ ation
+check user ,
+-----•usemame):
+s";'I .. _ -P.Exc;ption statu co
+-·"'~ detail•' 'Acee .!t}iP'!?'??',~. •:_::~: - •
+,. '-/;·
+-~ •~:;~·d:?f ??~~:- • . '.-<~-
+)"'." # Perform ,,vect
+Ji, se~ch_d'ata ;t·;.·~· e'"'a""rc-tu-d"'o•c1111ents(
+.•', /( '. :r,;j question=request .question
+... . .' ' :-_,-, . . . ,
+' • 'i top_k=DEFAULT_TOP _
+,' s¥1µari: cutoff: lARITY..'._CUTOFF
+) ·'
+20 •
+20 •
+21
+21
+.,822
+,822
+823
+823
+-·•, ...
+. 824
+824
+.• 825
+825
+,:\i-'826 \'•,; ..
+827
+828
+829
+. 830
+831
+832
+833
+834
+835
+836
+837
+838
+839
+840
+841
+842
+I 843
+I 844
+845
+i
+846
+!
+I 847
+I 848
+I
+I 849
+' 850
+851
+852
+853
+854
+855
+856
+857
+858
+859
+860
+861
+862
+863
+864
+865
+866
+0 867
+AAR
+m ®o~o
+'·1 ;i•f· ·- ,J. -!',·
+"!;:,;,1r-:--.
+" ,.
+# Conver
+· sea;cli ·.;;·
+I • Se-;;rch searchl.data[~;.:sults"]
+] ·:, ,,-,
+• :~ .... ,'
+# Generate analysis if requested
+analysis = No~e( .
+. ·"',,. ' ,,l .,
+if request:include2:analysis an'd I search_data[ "results"]:
+analysis = analyz~~th_qwen(
+request.question. • •
+search_;data["context"],
+search_data["results"]
+return SearchResponse(
+question=request.question.
+results=search_results,
+analysis=analysis,
+processing_time=search_data[ "processing_time"] •
+total_results=search_data["total_results"].
+results_sent_to_ai=min(TOP_K_FOR_ANALYSIS, len(search_data["results"]))
+except Exception as e:
+I raise HTTPException(status_code=580, detail=str(e))
+Run Cell I Run Above I Debug Cell
+# U Cell 9: 1-leb interface endpoint with authentication
+@app.get("/", response_class=HTMLResponse)
+async def web_interface(usemame: str = Header(None, alias="X-Username")):
+"""Enhanced web interface with Best Guess mode and citations"""
+# Check authentication
+if not check_user_access(usemame):
+# Return simple access denied page
+I
+return HTMLResponse(content="""
+< !DDCTYPE html>
+<html>
+<head>
+<title>Access Denied - MauroGPT 2.0</title>
+<style> I body { font-family: Arial, sans-serif; display: flex; justify-content: center; align-items: center; heights l"vh; margin, 8J bacqround•color: lfSfSfS;}
+,error-box { background: white; padding: 40px; border-radius: 10px; box-shadow: 0 2px l0px rgba(e,0,0,8,l)J text•aligni centerJ}
+hl { color: #d32f2f; margin-bottom: 20px;}
+p { color: #666; margin-bottom: 10px; }
+</style>
+</head>
+<body>
+<div class="error-box">
+<hl>Access Denied</hl>
+<p>You do not have permission to access MauroGPT 2,0,</p>
+I <p>Please contact Doug Rahden (douglas.rahde~inl,gov) for access,</p>
+</div>
+</body>
+< /htinl>
+IS) LnU11,Col
+:.,·1t 8?2--
+. ,,f.; 873
+;,'c.'!.' . "
+\" 874
+\·1r, ·~ii~ 875
+J•·t· 876
+{3~· ( _. 377
+878
+879
+880
+881
+882
+883
+~'i'.-, il-;,: •··' ~,-· l·;.;}~
+-,,_
+- ·~
+• l
+909
+"§10
+-~911
+J912
+913
+,914
+'915 •
+l:916
+917
+1,J924
+• .1925 ·.1
+""' 926
+•• 927
+928
+929
+939
+931
+932
+933
+934
+m_®o4lo
+def web_inte!:f11~!(U5!1;na!!IO: str. • Header(None, alias
+I
+<Ibo
+</ht
+• HOit) -<\-',·',.,;,-;;,,
+1t:J~\l~\' ~:
+,< # G~t- c~rrent model
+•• curreirt:_model,.info • MODELS_CONFIG[CURRENT,_l,XlDELJ
+model,_n11me -.~: current_mod!l_info[, name, , .
+imodeUevei'"'•i Extract level numb .
+: •. ~-<~\,~°?'.:T , , -· ,
+# Try to ll~r
+• ~ • ,- ,~'., ,q.·.:::..,.
+chroma_db_path • EN DIR / "chroma; te3"
+. training_d • • •• , "' ., •.
+try: •. ·::t•·
+if"Jc • >: .,
+• ~~Port >;/"
+•• i ,· ti .. ) ·•
+;,:",;. moct.; • • .
+- u>atti. stat( ,stJntiJiie _ c"
+':i:rainin date • time.strftlme ·~ %d(~~:~ thle,localtuie(lirOlf..ti~))
+except,,.,. ~.• _
+I .
+■ "X•Usern11me"))1
+.;, :.~~·
+# Use reg'!lar 5!:r~n_!t.1C~!)Cate,natio~ to avoid f-string issues
+'htlll,_content·• •••, .. -.·. ,.,.,
+--
+<IDOClYPe html> • • ··
+<hbnl>
+<head>
+<title>MauroGPT 2,0</title>
+<style>
+body {
+font-family: -apple-system,
+max-1-.idth: 1400px;
+margin: 0 auto;
+padding: 20px;
+background-color: #fSfSfS;
+BlinkMacSystemFont, 'Segoe IJI•, Roboto, sans-serif;
+}
+}
+}
+.header'.{
+I display: flex;
+justify-content: space-between;
+align-items: center;
+margin-bottom: 20px;
+background: 111hite;
+padding: 20px;
+border-radius: 10px;
+box-shadow: 0 2px 4px rgba(e,e,e,e.t);
+,header-left {
+display: flex;
+illi:n-items: center;
+aap: tspx;
+,system-status (
+bacqround: ff0feF0;
+Paddina: 10px 15px;
+border-radius: Spx;
+font-she: Upx;
+}
+,user-info {
+b11ck,iround: Se3f2fd;
+color: ft565c:0;
+paddina: Spx 111px;
+border-r11dius: 5pxJ
+font-size: 12px;
+I 111:arsin-bottom: SpXs
+)
+• syste11-info (
+I b•ck&round: whites
+Padd:lna: 2Bpx;
+borcler-ra11:lus 1 10px;
+bOX•ShlldOW: 9 2px 4px rab•(e,e,e,e.1)1
+w IJtflll,Co/11 .S,,.U4
+9 .
+스
+8 4 4
+9 3 3
+9 3 4
+9 3 5
+9 3 6
+9 3 7
+9 3 8
+9 3 9
+9 4 0
+9 4 1
+9 4 2
+9 4 3
+9 4 4
+9 4 5
+9 4 6
+9 4 7
+9 4 8
+9 4 9
+9 5 0
+9 5 1
+9 5 2
+9 5 3
+9 5 4
+9 5 5
+9 5 6
+9 5 7
+9 5 8
+9 5 9
+9 6 0
+9 6 1
+9 6 2
+9 6 3
+9 6 4
+9 6 5
+9 6 6
+9 6 7
+9 6 8
+9 6 9
+9 7 0
+9 7 1
+9 7 2
+9 7 3
+9 7 4
+9 7 5
+9 7 6
+9 7 7
+9 7 8
+9 7 9
+9 8 0
+9 8 1
+9 8 2
+async def web interface(username: s t r = Header (None, alias "X-Username")):
+border-radius: 10px;
+box-shadow: 0 2px 4px rgba (0,0,0,0,1);
+margin-bottom: 2 0 p x ;
+f o n t - s i z e : 14px;
+line-height: 1 . 6 ;
+color: #333;
+search-container {
+background: white;
+padding: 20px:
+border-radius: 10px;
+box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+margin-bottom: 20px;
+• search-box t
+width: 70%;
+padding: 14px 20px;
+F o n t - s i z e : 1 6 p x ;
+border: 2px s o l i d #e0e0e0;
+border-radius: 8px;
+transition: border-color 0 . 3 s ;
+-search-box: focus t
+o u t l i n e : none;
+border-color: #007cba;
+-search-btn t
+padding: 14px 28px;
+F o n t - s i z e : 1 6 p x ;
+background: #007cba;
+c o l o r : white;
+b o r d e r : n o n e ;
+cursor: pointer: b o r d e r- r a d i u s : 8px;
+margin-left: 10px;
+t r a n s i t i o n : background 0 . 3 s ;
+•search-bt:hover { background: #005a87; )
+•search-btn:disabled { background: #ccc; cursor: not-al
+owed; )
+• c o n t r o l s t margin-top: 15px;
+d i s p l a y s f l e x ;
+g a p : 20px; a lig n-it e m s: c e n t e r ;
+font-size: 14px;
+•control-group 4
+d i s p l a y s f l e x ;
+align-Items: c e n t e r s
+g a p : 8 p x ;
+/ * Answer Section *
+• answer-section <
+background: whites
+border-radius: 10px;
+padding: 25px:
+margin-bottom: 20px;
+box-shadow: 0 2px 4px rgba (0,0,0,0.1);
+• answer-header ‹
+display: f l e x ; align-items, c e n t e r :
+g a p : 18px;
+margin-bottom: 5pxs
+f o n t - s i z e : 18pxs font-weight: 6 0 0 ;
+m e e r
+O i n 1211, Col 10 Spacec &
+ti Otntratt_etrts,py
+> scripts > + maurogpt2-model,py > t:i'J webJntertace
+,......--. def 111eb_interflce(username: str • Helder(None, 11lias
+tont-s1
+font ,
+■
+"X•Username")) 1
+1038
+1039
+1040
+1041
+1042
+1043·
+1044
+1045
+1046·
+1047
+1048
+1049·
+1050
+i0s1a;
+,1052.,
+1053. •
+1054.
+11055 (
+,, 1056
+:;;{1057 •
+'105s
+£1059
+'ic 1060
+'1061
+, 1062
+.®· i 1063
+1064
+• ' 1065
+0 1Q66
+ir.zz , 1AA7
+11.!i,111.® 0 .d!, 0
+t•'cttations Section •1
+,citations-sec:tion {
+border-radius: l8px1
+lbackarourid: aJ
+paddina: 28px;
+. A marsin-bottom: 20px:"!'11111
+,f:1111! . .,Ui .. ,."'.~-
+:,}border;"r,1px solid #e9eceff
+>'' ', ' ' .·•· ' '.'
+,citations-header {
+display: flex;
+• ali&n-items: center;
+aap: 18px;
+marain-bottom: 15px;
+font-size: 16px;
+font•weiaht: 688;
+color: #495857;
+}
+,citation-item (
+bacqrouncl: 1,ihite;
+paclclina: 12px tspx;
+marein•bottom: 18px;
+border-radius: 6pXl
+border-left: 3px solid '887cba;
+font-size: 14px;
+}
+,citation-pelf (
+font-weiaht: 600;
+color: 1807cba;
+text-decoration: none;
+cursor: pointer;
+}
+.citation-pclf:hover (
+I text-decoration: underline;
+> .citation-paae (
+I color: 1666;
+marain•left: 10px;
+:t
+,citation-note (
+I color: 1666;
+I font-size: 13px; marain-top: Spx;
+:t
+1• Results section •1
+.results-section (
+b11c1<around1 white;
+borcler•radius1 10px;
+paddina: 25pxJ
+box-shadow: 0 2px 4Px raba(e,0,0,0.1);
+> .results•header (
+I display I flex;
+Alt,,,.-i~llm•• r~nffr!
+> scripts > + maurogpl2-model.py~---
+ef web_in • Header(Ntme,
+alias-"X•Usernarne•~).1
+justify-content: space-oen~een;
+;
+margin-bottom: 20px;
+"(033 •
+1~,/.-
+1,!'~S,
+1086
+1087
+1088
+1089
+1090
+.,. 1091
+1092
+1093
+1108
+1109
+1110
+1111
+1112.
+1113:'
+11141
+1115'
+11!§}
+1117),:.
+I
+1115·,
+1119;'•
+f
+1120,.
+1u1':·
+1122 •
+I 1123; •
+f 1124
+, 112s:
+' 1126
+1121.
+1128
+1129
+1130
+1131
+e 1132
+1133
+IZl0o.t.o
+iff,
+'~] ;-t?~ }f
+.result:hover {
+I ;:,-. border-color: #007cba; ·.,. ,.
+} ' : .". ~~?:·: ·-~~:'?7\~;f(\\. ?:•'" .
+. result-header { •
+font-weight: 600;
+color: #333;
+margin-bottom: 8px;
+font-size: 14px;
+}
+.result-pdf-1ink {
+color: #007cba;
+text-decoration:-none;
+font-weight: 600;
+}
+.result-pdf-link:hover {
+I text-decoration: underline;
+}
+.result-text {
+font-size: 14px;
+color: #555;
+line-height: 1.5;
+.loadine (
+text-align: center;
+I
+paddine: 60px;
+color: #666;
+>
+.stats {
+I color: 11666;
+font-size: 14px;
+)
+,error {
+color: ltd32f2f;
+bacqround: #ffebee;
+paddina: 15px;
+border•~adius: Spx;
+11art1n: 20px 0;
+·- '·.
+,:) ./
+:#~t.~rt _ ;\
+'. 7 •. ::;.),-:1\ -~
+·:l~!/' \', . . .,.
+•• .. ,. ;-;::'\2;i{ •
+~-: .,, ..... •\.
+l> .,,~"1 t~r,
+,status-1ooc1 ( color: 4'2e7d32; )
+,st111:us-1tarnina ( color: ltf57c00; )
+,status-bad ( color: •d32f2fJ)
+t• Hide sections Nllen e11pty • /
+.hidden ( displey: none;)
+.te"1lerature-indicetor (
+t, 1111urogp\2-model.PY ~ ! •• \ 11e - •
+o: > aa039v2 > strlpls > ,ti ma1110gpt2-model,P'/ > q) web_tntertace -· async def \lltb_interface(username1 str • Header(None,
+~ mJil ~1 .temperature-indicator {
+backg ;
+m
+color.:
+pad~i _ ,· .
+~m mi1
+border-ra
+I
+font-sh ;
+;
+mn
+ms
+~ ~
+. t1liH•"X•Usern11me")):
+I
+I
+i
+I·
+t·
+... ~, . '
+~
+'"~
+~r..
+'
+.te _"""_,a.;:.
+\ backg F3;
+color:
+padding:~2px Bpx;
+bo~;r;-radius: 3px;
+font-w
+'.·,:':'.·,.'"'""""
+/* Temperature level· colors. •i·'' •
+. temp~ ievel -1 { background;, #9C27B0; } /* Purple * /
+I. . temp· level -2 { background: #1'44336; } /* Red • /
+'''}• .temp·level-3 { background: #FF9800; } /* Orange */
+• .temp-level-4 {.background: #FFEB3B; color: #333;} /*Vella.~*/
+.te1111-level-S { background: #2196F3;} /*Blue*/
+.gpu-status {
+background: #4CAF50;
+color: white;
+padding: 2px Bpx;
+1162
+border-radius: 3px;
+. '1164
+1'·1163
+font-size: llpx;
+margin-left: 10px;
+:;&,i165
+It 1166
+'st .1167
+.highlight {
+{' 1168
+"!, 1169
+padding: lpx 3px;
+\.1170
+,"; 1171
+I background-color: #ffeb3b;
+border-radius: 3px;
+font-weight: 500;
+".1172
+, ,1173
+1174
+mark.highlight {
+1175
+1176
+I background-color:
+#ffeb3b;
+color: inherit;
+1177
+1178
+1179
+.footer {
+1180
+1181
+padding: 30px 20px;
+1182
+color: #666;
+1183
+1184
+I text-align: center;
+font-size: 14px;
+marein-top: 40px;
+1185
+1186
+\ </style>
+1187
+</head>
+1188
+1189
+1190
+I 1191
+' 1192
+1193
+1194
+1195
+1196
+1197
+\
+1198
+\
+I
+I
+1199
+I
+'
+I
+<div class=aheader•>
+<div class••header-left•>
+\ <hl>HauroGPT 2.0</hl>
+</div>
+<div stylea"display: flex; flex-direction: column; ~li1n-items: flex-end1 l•P: 8pxi">
+<div class•"user-info">User: ••• + (u5crname or "Unknown")+ """</div>
+<div class••system-status• id••syrtemStatus•>
+\ <div>System Status: <span idg"statusText">Checking, .• </spanX/div>
+</div>
+\
+<div cl.ass••temperature-indicator•>
+i
+I
+! MauroGPT Temperature Level: <span id=-tempLeve1• class••tenp-level tsip-leve1-••• + :rtr(IMffl~,,._,==) +••••>Level••• • str(aode1_1evel) • •••<J•pa.11>
+</div>
+~
+PSearth •
+D: > aa039Y2 > scripls > + maurogpl2-model.py > (il webJntelface _
+119S 844 async def ...,b_interface(user~a_'!"_: str = Header(None, aUas-"X-Username")}:
+I I MauroGPr·remperature Levol: • <span class=•temp-level temp-1ove1-••• + str(ftlOdU_level) + """">Level ••• + str(modtl_level} • """</span>
+1199 </div>
+1200
+1201
+1202
+1203
+14.
+~
+~
+IW'i'
+V:' .
+.
+_f\:./
+~<:--
+1213.
+, ..
+1214
+1215,
+"1216
+1217
+• uis
+~~j 1219
+~'. 1220
+1221
+1222
+1223
+1224
+1225
+1226
+1227
+1228
+1229
+1230
+1231
+1232
+1233
+1234
+1235
+1236
+1237
+1238
+1239
+1240
+1241
+1242
+1243
+1244
+1245
+1246
+1247
+1248
+1249
+1250
+1251
+1252
+1253
+1254
+1255
+1256
+1257
+1259
+1259
+1260
+1261
+® 1262
+126)
+0 1264
+1265
+1Zi®o1':."
+<div class••system-info"'> .
+I <p>MauroGPT is an on-premise GenAI system trained on selected nuclear specification documents. MauroGPT was developed by Idaho National Laboratory's Advanced Analytics team (Y634).</p>
+<p>MauroG-PT will retrieve the most relovant document excerpts, sorted by most similar, along ,dth PDF file names and page numbers. Search results will match based on context matcldne, not :Just: sperifk search tenas.
+I
+<p)\,/hen keywords explicitly match results from the context matching, they will be highlighted.</p>
+<p style="'marein-bottom: 0; "'>Trained on documents through •
+...... + training_date + """ .</p>
+</div>
+,~,\ <div class.;,•search-container"'>
+~= -~ <div>! .
+· ''---'. I <input type=r•text• id=•qu~on• class=•search-box" placeholder=0 Enter your technical question ... • />
+• <button onclick=•search()• id=~searchBtnn class=•search-btn°>Get Citations</button>
+</div>}\
+<div class••controls•>
+j <div class=•control-group•>
+I <label><input typ"""checkbox"
+id=•inc1udeAnalysis0 checked> Enable MauroGPT"s •sl!St Guess0 mode<Jlabel>
+</div>
+</div>
+</div>
+<div id••results•xJdiv>
+<div class=0 footer•>
+I Reach out to Doue Rahden (douelas.rahde~nl.~v) with technical questions.
+</div>
+<script>
+// Store username from query parameter
+const urlParams • neLf URL.SearchParams(window.location.search);
+const usem~ • urlParams.eet("username•) II •••• + (usemame or • 0) • ••••;
+// Conman words to exclude from hiehliehtine
+canst common\.Jords = new Set([
+"the'_. "be"_. "to•, •of•, •and", •a•, "in", "that•, "have', •i•,
+"it", "for•_. •not•, •on•, "with", "he', •as•, •you•_. 'do"_. •at•,
+"this•_. •but•_. "his•, "by"_. 'from', 'they•, •we•., •say', 'her', 'she',
+•or•, 'an• 1 'will•., •my• 1 •one•, •au•_. 'would"_. 'there' 1 'their',
+'what•, •so•, •up'_. •out•, 'if'_. "about"_. "who"_. 'eet'_. 'which"_. •eo• ..
+•me•, 'klhen'., •make' 1 •can' 1 "like"., "time"_. 'no' 1 'just" 1 'him", 'kn°'"',
+'take'_. •people'_. 'into•, •year•., •your•., •eood", "some•_. "could', 'them',
+•see•., •other'_. 'than•_. "then'., •now•_. "look'_. •only'_. 'come•, 'its•., 'over•_.
+"think'., "also•, "back'., 'after•., •use• 1 'two',, 'how"_. •our•, "work".,
+'first• 1 'well' 1 "way• 1 •even• 1 •new"_. "want• .. 'because' 1 •any•_. 'these',
+'aive'_. 'day•_. •most•., •us•_. 'is"_. ',fas'_. •are•., "been', 'has', 'had',
+I •were•_. "said' 1 'did' 1 •1ettin1' _. 'made' 1 'find' 1 "where'., •,1t1y•, "let'
+]);
+// Extract key,,ords fl'OII search query
+function extroctlCey,,ords(query) (
+! canst 110rds • query.toL-rcase(),split(/\s+/);
+i return wrds.filter(word •>
+·1 I wrd,len,th > 2 &a ICOIIIOrtlordS,hH(wrd) S&
+! l/"[11,,;:JS/.test(M>rd)
+I );
+>
+II Hi&hliaht k-rd• in text
+function hichliahtlCeywords(text, k_..ss) (
+Sf (lkeyloords II ke)/MlrdS,len,th - •> return text1
+let hlpli&lltecllext • textJ
+const sortedlte,,-'Cl:s • kO)'IIOl'Cls,sort((e, b) •> l>,lensth • ••l""Sth)I
+~~~l~t-::::--r~----------=-- ¼•· -.J.: •• •. ,. ~ .
+,s, ..;~-rnadel.py It :~ g,n,r~ctrls,P;";•::-'---,--:-,- !!:~..,----------------
+• - • > '$> a • ,.;;;pl2-mode~py > (i) web Interface ..
+D: > aaOl9v2 > salpts m u • - H9d r(None alias,."X-Usemame")) I
+~~~• I-•· - :::::~::::~::.::c:(::~::: ~> { • -~·-•i; •
+844--_ asyncldet_wt!b_interfa~e(userrnue. st!"' ~ e ~ ~wi !Hu, "' • _, -"•.J.t;;lla .... _ u • .A.'!;;116 .. 111 .,
+!!~,_;: Ji l if (lkeyword,trim()) return; -.
+126
+•
+f•;1 I Dc.•+?AS{}()l[\]\\\/J/g, '\\$&'); // escape slashes too
+!!;~sl. I scapedKeyword + .• ,,, .. ,,,, .... + escapedKeyword + .. ,, ... ,•;
+·--· ·.,., trili (pattem, "gi"); ,
+'~ !!;! il ~ •.. - ··$ ...
+,:'";1,2.74 .' :· ""'
+ightedTe_xt .replace(regex, • <mark class="highlight">Sl</mark> ) ;
+1276 f .,
+1275 -
+eyi,ord ;:.,gex for "${keyword}":", e);
+·;._,_.
+1277 ~
+--~~-
+1278
+1279
+1280
+1281
+1282
+1283
+// Make PDF link - na.~ using server endpoint with usernare
+function makePdflink(filename) {
+1284
+/ / Include username in PDF URL
+1285
+1286
+return '<a href="/pdf/S{encodeURIComponent(filename)}1username-=aS{encodeURICom~onent(usemame)}•
+I
+1287
+I I title0 "0pen PDF: S{filename}">${filename}</a>·;
+1288
+1289
+// Check system status on load
+1290
+esync function checkStatus() {
+1291
+1292
+1293
+I ti ry {
+canst respanse = await fetch("/health');
+1294
+canst data• await response.json();
+1295
+canst statusEl = document.eetElementByid('statusText");
+1296
+1297
+if (data.status••= 'healthy") {
+1298
+I statusEl.innerHTML = "<span class="status-eood"'>All systems
+1299
+} else { operational</span>';
+I
+1300
+} statusEl.innertfTML • '<span class•"status-warnin"">Some st
+1301
+1302
+I I
+~ sy ems deeraded</span>';
+1303
+// Add GPU info if available
+1304
+1305
+I I
+if (deta.system_info && data.system_info,""U && 'd t i
+canst epu • dato.system_info.gpu;
+I - · a a.sy5tem_ nf'o,epu.error) {
+1306
+const epuutil • &pu.a,u_utilization 11 0;
+1307
+I
+! !statusEl.innerHTML ~ '<span Class•"m,u-status•>GPU: • •
+1308
+1309
+I
+I i apu.memory7used-;-'b.toFixed(l) + '/" + epu.memory_total_eb.tofixed(l) • 'GB I • +
+i i epuutil + XI + epu.temperature_c + •oc</span>•;
+}
+1310
+1311
+} catch (error) {
+1312
+document.eetElementByid('statusrext•).innerHTHL c '<span
+1313
+1314
+} class••status-badu>Connection error</span>';
+1315
+1316
+checJcStatus();
+1317
+setinterval(checlcStatus, 10000); // Update every 10 seconds
+1318
+1319
+async function search() (
+1328
+Const Question• docunent &etEl~ {
+1321
+if (!question.trim()) ret~rn; Yid 'question•).value;
+1322
+1323
+canst inclUdeAnalysis • doc1.nent,aetflem.entB •
+1324
+canst ke}'WOrds • extractJceywords(questton); y?d( includeAnolysis•),checked;
+1325
+1326
+const searc.h&tn • dOC'-fflent etEl
+1327
+seerchBtn.disabled • true; •C ~ntBy?d('searchBtn•);
+1328
+searchBtn.text.content • 'Gettina Citat•- •
+1329
+£URS.•• ;
+1330
+0 1331
+docuaent,setElmentByld( 'results•) inn
+ll";n 1'32
+(inclucfeAne1ysis >•and cener;tin;~; :.~=d•i•vnc1l•s1s••101dina•>searchJna documents•
+a.a;.a®o&o --
+• -----~--
+try { ...
+8 YS s, • . , ') +
+'' ' '' • • '</div>• J
+tareet="_blank" class="result·pd~-link"
+♦ IMLIIOIIP!2·moclel4JY e C, gl!.'!ro~ -~-
+;
+, 0: > all39v2 > scripts > + maurogpt2-modeLpy > 6:1 webJnterface
+' a d f -b interf■ ce(username; str •,.Header(None,
+844 async ~
+- -
+-
+- ijj)J§ij1WWlfaiW
+_ ._
+~
+1331
+1332
+{
+"'
+1333
+• •
+0
+1334
+1335
+1336
+1337
+1338
+1339
+1348
+1341
+1342
+1343 ,Th_~
+1344':': J-,·.-:.
+Qi;!)' 1345 \;
+1346"i.::
+f:\ ~-··-''
+1347,i,
+•~: 1348·
+~-;'• :· 1349
+const res 111
+, method
+header -,_...:.
+l. - - "·
+// Include username in header
+body: JSON:strinaify({
+l question: question,
+include_enalysis: includeAnalysis
+'' ., })
+~}); ' • ,, •.;:);-. :_:: -
+,, ~f, ('iresponse.ok) .{ I 'if. (response.status ••• 483) { /' •
+I ,~, throw i,ew Error(• Access d_enied / Please refresh the p11e. •);
+I !hro\~ n:! er.:Or( • Server e~;.;,t"; + response. status) I
+,,~ ,,N· ,;,
+tr 1350
+1351'
+~>'' 1352
+:;/ 1353
+<":•,'
+, 1354
+t'1 i1355
+--
+~·.
+... ...!_356
+";'~:· ,1357
+,,"'f C 1358
+cons1: data• await response,json();
+displayResults(data, keywords, includeAnalysis);
+} catch (error) {
+I document.eetElementSyld(' results') ,innerHTML • '<div class•0 error">Error: ' + error.messa1e + '</div>' J
+} finally {
+I searchBtn.disabled • false;
+searchetn.textContent • 'Get Citations';
+~r-~ 1359
+:i:~.-
+1360
+1361
+1362
+'_,
+r 1363
+1364
+1365
+1366
+:1367
+1368
+1369
+1370
+1371
+function displayResults(data, keywords, includeAnalysis) {
+I let html - • I;
+// Best Guess Output section
+if (data.analysis && data.analysis.answer) {
+html+- •<div class••answer-section•>•;
+html+- "<div class••answer-header•>eest Guess Output</div>";
+html +- "<div class•"answer-disclaimer"'>Answers are best auesses only. Refer to source documentation.</div>';
+html+• "<div class••answer-content•>• +data.analysis.answer+ '</div>'J
+html - '</div>'l
+1372
+1373
+1374•
+1375
+1376
+1377
+1378
+1379,
+1380
+1381
+1382
+1383'
+1384
+// Citations Section
+if (data.analysis.citations && data.analysis,citations,lenath > 9) {
+I html ♦- '<div class•"citations-sect.ion">';
+html ♦- "<div class••citations-header0 >SOurces Used by Best Guess Mode</div>'J
+data,analysis.citations.forfach(citation •> {
+html+- '<div class•"'citation-item•>•;
+html - makePdfLink(citation.source_pdf);
+html .. "<span class••citation-pa1e•>Pa1e '• citation.pa1eJ11,unber • '</span>'J
+if (citation.relevance.J>ote) {
+I htnl .. "<div class••citation-note•>• • citatf.on.relevance..}IOte • '</div>"J
+,
+I html - '</div>' l
+1385
+});
+1386
+html+- '</div>";
+1387·
+1388
+1389
+1390
+1391
+1392
+1393
+\ ;c,,·- 1394
+rCII llesults</div>" I
+'\® "1395
+"{"•<, , 1396
+,_· 139-7
+0
+I-· 1393
+// Results Section
+trtlll .. "<div cllss-•results-section•>• J
+trta1 .. '<div class••results-heacter•>•s
+MIil .. '<div class-•results•title">lllunlGPT AJ 5e■
+lltal. .. "<div cless••stats•>• s
+M:111 ... "<stronp• • ciat..tot•l.J'esults • '</strona> results fovnd in <stronp•
+canst sentTo8estGuass • includoAnalysl.5 1
+fl e) 1 01
+trta1 ... • I <stranp• • sentToBestGuess • "</stron,> sent to Best Guns Hocfe•1
+ht.al .. '</div>" J
+• dllhl,proceui11Lt1-,toflucl(2) + 'tc/ftranp•,
+mG,o.t.o
+(-.results..Jent..to... ■!
+'',~f~%i'Ct; iJJ~f,~tt
+... '~-
+'
+. -~. ;•--~;~; .. ~,-;J-~:•"://~-:i~-
+.'<t~~:-·
+:\ ~."" ~:·'._};,\'.t,;,ff}('
+mau~-model.py • ,t, generate_certs,py
+D: > aaO39Y2 > scripts > + maurogpt2-model.py > 6' web_interface ;Ill~_~;.~ __ ,,.;!!,.,?,. ll'.';.:·'!'l· ~,..,. _______ ,, ____ --·-·· • ·-·
+- :---:---=-=---~f-:-;~-;::-""'!" .. , _;:;I ,,.,.~ •• , •,'
+844 asyric def web_interface(username: str = Header(Nbne~ alias.,"X~Username")):'
+'··-----•--
+-
+" .
+- ---
+.... _,_._, __ ,. _.,. ___ ~.,._.,~,. ___ ,,,_ ,,_. .. ,.,.~, . .,-
+html += '<div cJass="stats">' • • ''":!( .. _, .. :::~,n .. ,; .
+mm
++= '<strong>' + data.total_result~';:r-'<tst;ong> results found in <strong>' + data.processinLtime.toFixed(2) + 's</strong>';
+•
+: sentToBestGue~s = includeAnalys~~/?}(data.results_sent_to_ai II 0) : 0;
+'
+• I <strong>' • _sentToBestGuess(t:;i'</strong> sent to Best Guess Mode';
+-
+-- • ·,.,.<{/;;.:J-, '·,
+•••
+_if (d
+I ;.;.;.~.,..,::.:=.-,.. T~; adjusting the similarity cutoff or rephrasing your question.</div>';
+} e •. ::;,
+'.
+; •.~,~~.>r,,.'i';C' :~- _;-~, ,i._ _- b , , i':.-,.,. _ ;;, :
+onst highlighte<!Jextf='highli tKe M ords result.document, keywords);
+~,.,..,..~,.,·c ...... ~••_,,.;-: .,
+tml += '<div class·="result
+• • class="resill-t- .. h•e"-
+~:::;!lliiilll-:=;-. ·' "'•~:+· l)~ m~~ePdflink(result. source_pdf) +
+• e_number + ') - Similarity: • + result.similarity_score.tofixed(3);
+,-.. --.-:: ,
+'"
+·,:_;·
+- ext">' + highlightedText + '</div>';
+document.getElementByid('results'),innerHTML = html;
+0 "·\~-
+1:)r:I~ _)\:
+document.getElementByid('question'),addEventlistener('keypress', function(e) {
+if {e.key == 'Enter' && !document.getElementByid('searchBtn'),disabled) {
+I search();
+}
+});
+</script>
+</body>
+</html>
+return HTffLResponse(content=h:bnl_.conte11t)
+Run Cell I Run Above I Debug Cell
+#
+~ Cell 10: Main Server Function
+def. min():
+• " 0 "Main server function" .. .,
+print(o=" • 60) • n
+print("MAUROGPT 2.0 - Technical Document Analysis System)
+print(0 =0
+• 60)
+print(-foBase Directory: {BASE..:DIR}") Ef'AULT fllDELJ[ 'name']} - {MODELS_CONFIGfDl:FAULT_fDDELJ ['description•]}")
+rint(f0 Active Model: {OODELS-'CONFIG[D .
+•-
+, ,
+0
+p t" at' {•Enabled' if ENABLE AUTJf else Disabled } )
+print(f"Authen 1c ion: .
+_ .
+print(f0 Server: http://{HOST}:{PORT}")
+print(0 =" • 60)
+uvicorn,run( I a_pp,
+hosto;HOST,
+port=PDRT,
+reload•false,
+log_level•"info"
+if _Jlaffle_ - n __main_":
+I min()
+W Ln1211.

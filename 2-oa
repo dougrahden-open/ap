@@ -1,3 +1,4 @@
+# oauth2-proxy.yaml
 # This handles all Okta authentication for the portal
 
 apiVersion: v1
